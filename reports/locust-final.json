@@ -1,0 +1,54 @@
+{
+  "kind": "short_local_locust_probe_not_capacity_benchmark",
+  "configured_users": 8,
+  "users_at_shutdown": 0,
+  "mode": "deterministic",
+  "requests": 170,
+  "failures": 0,
+  "failure_rate": 0.0,
+  "observed_rps": 14.682133576275813,
+  "median_ms": 33,
+  "p95_ms": 480,
+  "operations": [
+    {
+      "method": "POST",
+      "name": "chat_hold_contention",
+      "requests": 16,
+      "failures": 0,
+      "median_ms": 160,
+      "p95_ms": 510
+    },
+    {
+      "method": "POST",
+      "name": "chat_search_and_availability",
+      "requests": 47,
+      "failures": 0,
+      "median_ms": 270,
+      "p95_ms": 580
+    },
+    {
+      "method": "POST",
+      "name": "chat_select",
+      "requests": 16,
+      "failures": 0,
+      "median_ms": 230,
+      "p95_ms": 580
+    },
+    {
+      "method": "POST",
+      "name": "create_session",
+      "requests": 24,
+      "failures": 0,
+      "median_ms": 13,
+      "p95_ms": 25
+    },
+    {
+      "method": "GET",
+      "name": "hotel_search",
+      "requests": 67,
+      "failures": 0,
+      "median_ms": 9,
+      "p95_ms": 36
+    }
+  ]
+}

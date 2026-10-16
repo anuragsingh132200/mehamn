@@ -1,0 +1,42 @@
+{
+  "kind": "local_smoke_not_capacity_benchmark",
+  "workers": 6,
+  "iterations_each": 3,
+  "elapsed_seconds": 5.845,
+  "requests": 70,
+  "throughput_rps": 11.98,
+  "http_failure_rate": 0.0,
+  "operations": {
+    "chat_hold_contention": {
+      "requests": 8,
+      "median_ms": 689.72,
+      "p95_ms": 759.45,
+      "failure_rate": 0.0
+    },
+    "chat_search_and_availability": {
+      "requests": 18,
+      "median_ms": 955.39,
+      "p95_ms": 1721.2,
+      "failure_rate": 0.0
+    },
+    "chat_select": {
+      "requests": 8,
+      "median_ms": 852.59,
+      "p95_ms": 950.29,
+      "failure_rate": 0.0
+    },
+    "hotel_search": {
+      "requests": 18,
+      "median_ms": 50.28,
+      "p95_ms": 129.3,
+      "failure_rate": 0.0
+    },
+    "session_create": {
+      "requests": 18,
+      "median_ms": 53.69,
+      "p95_ms": 162.55,
+      "failure_rate": 0.0
+    }
+  },
+  "note": "HTTP 200 may contain a correct business rejection due to inventory contention. Booking safety is asserted separately in PostgreSQL concurrency tests."
+}

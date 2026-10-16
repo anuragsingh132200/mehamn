@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mira
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mira_local_only}
+      POSTGRES_DB: mira
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mira"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  migrate:
+    build: ./backend
+    env_file: ${ENV_FILE:-.env}
+    environment:
+      DATABASE_URL: postgresql+psycopg://mira:${POSTGRES_PASSWORD:-mira_local_only}@db:5432/mira
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "alembic upgrade head && python -m app.seed && python -m app.checkpoints"]
+  api:
+    build: ./backend
+    env_file: ${ENV_FILE:-.env}
+    environment:
+      DATABASE_URL: postgresql+psycopg://mira:${POSTGRES_PASSWORD:-mira_local_only}@db:5432/mira
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  web:
+    build: ./frontend
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3000:3000"
+volumes:
+  postgres_data:

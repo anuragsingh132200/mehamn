@@ -1,0 +1,37 @@
+{
+  "kind": "short_local_locust_probe_not_capacity_benchmark",
+  "users": 0,
+  "mode": "deterministic",
+  "requests": 202,
+  "failures": 174,
+  "failure_rate": 0.8613861386138614,
+  "observed_rps": 17.561462217386698,
+  "median_ms": 2,
+  "p95_ms": 150,
+  "operations": [
+    {
+      "method": "POST",
+      "name": "chat_search_and_availability",
+      "requests": 86,
+      "failures": 72,
+      "median_ms": 2,
+      "p95_ms": 200
+    },
+    {
+      "method": "POST",
+      "name": "create_session",
+      "requests": 34,
+      "failures": 28,
+      "median_ms": 2,
+      "p95_ms": 24
+    },
+    {
+      "method": "GET",
+      "name": "hotel_search",
+      "requests": 82,
+      "failures": 74,
+      "median_ms": 2,
+      "p95_ms": 10
+    }
+  ]
+}

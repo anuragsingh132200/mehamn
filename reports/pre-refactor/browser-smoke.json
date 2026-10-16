@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "production_page_loaded",
+    "database_recommendations_rendered",
+    "unknown_policy_grounded",
+    "negotiation_pending_review",
+    "real_manager_approval",
+    "successful_booking_hold",
+    "state_survives_reload",
+    "real_tool_traces_visible",
+    "mobile_layout_without_horizontal_overflow"
+  ],
+  "page_errors": []
+}
