@@ -11,7 +11,7 @@ type Trace = { id:string; tool_name:string; duration_ms:number; success:boolean;
 type Message = { role:string;content:string;id?:string };
 type Session = { session_id:string;token:string };
 type AdminData = {flags:{id:string;category:string;severity:string;reason_code:string}[];offers:{id:string;status:string;proposed_amount:number}[]};
-const API=process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API=process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 const inr=(v:number)=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(v/100);
 const label=(v:string)=>v.replaceAll('_',' ');
 const suggestions=['Plan a three-day Goa itinerary','A villa with a private pool','Something for the whole family'];

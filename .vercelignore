@@ -1,0 +1,14 @@
+.env
+.env.*
+**/.env
+**/.env.*
+**/.venv/**
+**/node_modules/**
+**/.next/**
+**/.next-dev/**
+**/__pycache__/**
+**/.pytest_cache/**
+.agents/
+.aws/
+.codex/
+reports/

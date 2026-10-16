@@ -1,10 +1,20 @@
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     database_url: str = "postgresql+psycopg://mira:mira@localhost:5432/mira"
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def use_psycopg(cls, value: str) -> str:
+        # Hosted providers supply plain Postgres URLs; this app uses psycopg 3.
+        for prefix in ("postgres://", "postgresql://"):
+            if value.startswith(prefix):
+                return "postgresql+psycopg://" + value[len(prefix):]
+        return value
+
     openai_api_key: str = ""
     openai_model: str = "gpt-4.1"
     llm_mode: Literal["openai"] = "openai"
