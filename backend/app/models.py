@@ -99,6 +99,7 @@ class BookingHold(Identified, Base):
     session_id: Mapped[str] = mapped_column(ForeignKey("conversations.id"), index=True)
     room_type_id: Mapped[str] = mapped_column(ForeignKey("room_types.id"), index=True)
     quote_id: Mapped[str] = mapped_column(ForeignKey("quotes.id"))
+    cancelled_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     check_in: Mapped[date] = mapped_column(Date)
     check_out: Mapped[date] = mapped_column(Date)
     total_minor: Mapped[int]

@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     database_url: str = "postgresql+psycopg://mira:mira@localhost:5432/mira"
     openai_api_key: str = ""
-    openai_model: str = "gpt-4.1-mini"
+    openai_model: str = "gpt-4.1"
     llm_mode: Literal["openai"] = "openai"
     recent_message_window: int = Field(12, ge=2, le=30)
     context_message_chars: int = Field(2000, ge=200, le=4000)

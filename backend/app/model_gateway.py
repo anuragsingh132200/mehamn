@@ -63,9 +63,9 @@ class ModelGateway:
                 success=True
                 return output
             except (ValidationError,ModelOutputInvalid) as exc:
-                log.warning(json.dumps({"event":"model_validation_failure","purpose":purpose,"request_id":self.correlation_id,"attempt":attempt+1,"type":type(exc).__name__}))
+                log.warning(json.dumps({"event":"model_validation_failure","purpose":purpose,"request_id":self.correlation_id,"attempt":attempt+1,"type":type(exc).__name__,"errors":exc.errors(include_input=False,include_context=False) if isinstance(exc,ValidationError) else []}))
                 if attempt: raise ModelOutputInvalid("I couldn’t safely interpret the model’s response. Please clarify your request and try again.") from exc
-                context={**context,"validation_feedback":"Your previous structured output was invalid. Respect all field types, tool schemas, and cross-field requirements. No previous proposal was executed."}
+                context={**context,"validation_feedback":{"instruction":"Your previous output was invalid. Respect field types and cross-field requirements. No previous proposal was executed.","errors":exc.errors(include_input=False,include_context=False) if isinstance(exc,ValidationError) else str(exc)}}
             except (AuthenticationError,PermissionDeniedError) as exc:
                 log.warning(json.dumps({"event":"model_authentication_failure","purpose":purpose,"request_id":self.correlation_id,"type":type(exc).__name__,"status":exc.status_code}))
                 raise ModelUnavailable("The language service credentials were rejected. Please ask the administrator to update the server configuration.") from exc

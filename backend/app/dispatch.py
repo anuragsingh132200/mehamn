@@ -18,6 +18,7 @@ TOOL_DESCRIPTIONS={
     "create_negotiation_offer":"Persist a policy-validated offer; never directly approve manager-only discounts.",
     "create_escalation_flag":"Record one classified review request with an application-owned reason code.",
     "request_human_handoff":"Persist a handoff for one classified review request.",
+    "cancel_booking_hold":"Cancel the current session’s temporary hold after an explicit cancellation request; release inventory without refunds or external reservation changes.",
     "create_booking_hold":"Create a temporary hold only for a previously presented, explicitly confirmed quote.",
 }
 
@@ -176,3 +177,18 @@ class Dispatcher:
         self.state.active_booking_hold_id=hold['id'];self.state.hold=hold
         self.state.pending_confirmation=False;self.state.next_action='hold_active'
         return hold
+
+    def do_cancel_booking_hold(self,args):
+        if not self.interpretation.explicit_cancellation or self.interpretation.ambiguities:
+            raise BusinessError("Please explicitly confirm which temporary hold you want to cancel.")
+        hold_id=self.previous.active_booking_hold_id or (self.previous.hold or {}).get('id')
+        if not hold_id:raise BusinessError("There is no temporary hold in this session to cancel. For an external reservation, staff must assist you.")
+        result=self.tools.run('cancel_booking_hold',s.CancelHoldInput(hold_id=hold_id,confirmed=True))
+        self.state.hold=result
+        self.state.active_booking_hold_id=None
+        self.state.pending_confirmation=False
+        self.state.negotiation_state={}
+        self.state.quote=None;self.state.latest_quote_id=None
+        self.state.latest_recommendations=[]
+        self.state.next_action='hold_cancelled'
+        return result

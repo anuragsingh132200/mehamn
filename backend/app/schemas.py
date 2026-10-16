@@ -61,6 +61,10 @@ class HoldInput(BaseModel):
     requirements: BookingRequirements
     confirmed: bool
     idempotency_key: str
+class CancelHoldInput(BaseModel):
+    hold_id: str
+    confirmed: bool
+
 class DiscountInput(BaseModel):
     quote_id: str
     proposed_amount: int | None = Field(None, gt=0)

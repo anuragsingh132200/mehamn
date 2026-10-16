@@ -208,8 +208,26 @@ class Tools:
         self.db.add(hold); self.db.flush()
         return self.hold_result(hold)
 
+    def cancel_booking_hold(self, arg: s.CancelHoldInput):
+        if not arg.confirmed: raise BusinessError("Please explicitly request cancellation of your temporary hold.")
+        hold=self.db.scalar(select(m.BookingHold).where(m.BookingHold.id==arg.hold_id,m.BookingHold.session_id==self.session_id).with_for_update())
+        if not hold: raise BusinessError("No matching temporary hold exists in this session.")
+        self.db.scalar(select(m.RoomInventory).where(m.RoomInventory.room_type_id==hold.room_type_id).with_for_update())
+        if hold.cancelled_at is None:
+            if hold.expires_at<=now(): raise BusinessError("This temporary hold has already expired; no cancellation is needed.")
+            hold.cancelled_at=now()
+            # Availability already excludes expired claims. Retain the cancellation
+            # timestamp to distinguish a voluntary release from natural expiry.
+            hold.expires_at=hold.cancelled_at
+            quote=self.db.get(m.Quote,hold.quote_id)
+            quote.invalidated=True
+            for offer in self.db.scalars(select(m.NegotiationOffer).where(m.NegotiationOffer.quote_id==hold.quote_id)):
+                offer.status="expired"
+            self.db.flush()
+        return self.hold_result(hold)
+
     @staticmethod
-    def hold_result(h): return {"id": h.id, "quote_id": h.quote_id, "total_minor": h.total_minor, "expires_at": h.expires_at.isoformat(), "status": "temporary_hold" if h.expires_at>now() else "expired", "confirmed_reservation": False}
+    def hold_result(h): return {"id": h.id, "quote_id": h.quote_id, "total_minor": h.total_minor, "expires_at": h.expires_at.isoformat(), "status": "cancelled" if h.cancelled_at else "temporary_hold" if h.expires_at>now() else "expired", "confirmed_reservation": False}
 
     def create_escalation_flag(self, arg: s.FlagInput):
         old = self.db.scalar(select(m.EscalationFlag).where(m.EscalationFlag.session_id==arg.session_id, m.EscalationFlag.idempotency_key==arg.idempotency_key))

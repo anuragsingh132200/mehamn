@@ -1,6 +1,6 @@
 # Mira · Mehman hotel receptionist
 
-A runnable Goa hotel receptionist with Next.js, FastAPI, LangGraph, OpenAI structured extraction, and PostgreSQL. All three properties, nine room types, inventory, tax, and negotiation policies are **fictional**. Holds are temporary inventory claims, not confirmed reservations. No payments.
+A runnable Goa hotel receptionist with Next.js, FastAPI, LangGraph, OpenAI tool planning and grounded response generation, and PostgreSQL. All three properties, nine room types, inventory, tax, and negotiation policies are **fictional**. Holds are temporary inventory claims, not confirmed reservations. No payments.
 
 ## Start with Docker Compose
 
@@ -16,26 +16,30 @@ Open <http://localhost:3000>. API documentation: <http://localhost:8000/docs>. R
 
 The one-shot `migrate` service applies Alembic migrations, seeds deterministic data, and initializes LangGraph's PostgreSQL checkpoint tables before API workers start. PostgreSQL data uses a named volume. `docker compose down` preserves data; `docker compose down -v` deletes it.
 
-`LLM_MODE=openai` is the only supported runtime mode. Mira uses configurable `gpt-4.1-mini` for structured tool planning and natural responses. Missing credentials produce an explicit configuration error; there is no keyword parser or offline agent. Tests mock structured model outputs and exercise the real database services.
+`LLM_MODE=openai` is the only supported runtime mode. Mira uses configurable `gpt-4.1` for structured tool planning and natural responses. Missing credentials produce an explicit configuration error; there is no keyword parser or offline agent. Tests mock structured model outputs and exercise the real database services.
 
 ## Local development
 
-Requires Python 3.12+, Node 22+, uv, and PostgreSQL 16+. Create databases `mira` and a **disposable** `mira_test`; set credentials in `.env` and the appropriate database URL. Local commands run from the repository root unless noted.
+Requires Python 3.12+, Node 22+, uv, and a running PostgreSQL instance. Configure the root `.env` with `DATABASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-4.1`, and a separate `ADMIN_TOKEN`. Keep the existing `.env` when it is already configured.
+
+From the repository root:
 
 ```bash
 uv sync --project backend --frozen
-# Use the root .env from the backend working directory (do not commit it).
-ln -s ../.env backend/.env
-cd backend
-uv run alembic upgrade head
-uv run python -m app.seed
-uv run python -m app.checkpoints
-uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2
-# Another terminal:
+backend/.venv/bin/python scripts/run_local.py --setup
+```
+
+`--setup` applies migrations (including cancellation), idempotently seeds fictional records, initializes checkpoint tables, and starts two API workers. On subsequent starts, omit `--setup`. The launcher reads the root `.env` and overrides stale shell values. The PostgreSQL service must already be running; the launcher does not install or start a database.
+
+In a second terminal:
+
+```bash
 cd frontend
-npm ci
+npm ci --include=optional
 npm run dev
 ```
+
+Open http://localhost:3000. For production frontend verification use `npm run build`. The default model is `gpt-4.1`; it was used for the final live feature evaluation after the smaller model showed more tool-contract failures.
 
 The browser calls `http://localhost:8000` by default. For a different host, set `NEXT_PUBLIC_API_URL` **before building** the frontend and set backend `CORS_ORIGIN` to the browser origin. Compose binds only local ports. Publishing to the internet is outside this local case study; use TLS and real identity management before deployment.
 
@@ -48,6 +52,8 @@ Use future dates; the reproducible example as of October 16, 2026 is:
 3. “Is the pool heated?” → unknown; no invented amenity.
 4. “Give me your best price.” → an engine-validated offer.
 5. “Confirm hold.” → revalidates the quote and inventory in one database transaction.
+
+“Cancel my temporary hold” releases its inventory claim and records the cancellation; a cancellation-policy question only retrieves policy. A Cancel temporary hold button is also available. Confirmed external reservations and refunds require staff integration.
 
 Change occupancy or dates before confirmation to see quotes and offers invalidated. “Add breakfast please” after room selection fetches the property's paid add-on, recalculates tax and the stay total, and requires renewed confirmation. Add-on IDs restrict subsequent results to the property's compatible rooms; remove the add-on before comparing other properties.
 
@@ -75,7 +81,7 @@ OPENAI_API_KEY=... backend/.venv/bin/python scripts/live_eval.py
 cd frontend && npm run build
 ```
 
-See [REFACTOR_REPORT.md](REFACTOR_REPORT.md) for the current architecture and verification. See [EVALUATION_REPORT.md](EVALUATION_REPORT.md), `reports/evaluation.json`, JUnit XML, and [backend/tests/SCENARIOS.md](backend/tests/SCENARIOS.md). The live suite writes its own report only when run. It is not represented as tested without a key.
+See [REFACTOR_REPORT.md](REFACTOR_REPORT.md) for the current architecture and verification. See [EVALUATION_REPORT.md](EVALUATION_REPORT.md), `reports/evaluation.json`, JUnit XML, and [backend/tests/SCENARIOS.md](backend/tests/SCENARIOS.md). For full live feature checks (creates temporary holds on the demo database), run `backend/.venv/bin/python scripts/live_scenarios.py`. The live suites write their own reports only when run. It is not represented as tested without a key.
 
 Run load checks **only on a disposable seeded environment with a configured live model (these consume model requests)**:
 
@@ -120,6 +126,6 @@ PLAYWRIGHT_MODULE=/tmp/mira-browser/node_modules/playwright/index.mjs \
   DEMO_ADMIN_TOKEN=<your-local-admin-token> node scripts/browser-smoke.mjs
 ```
 
-Set `CHROME_PATH` if Chrome is not at `/usr/bin/google-chrome`. This writes screenshots and a JSON result. The script uses November 2026 dates; advance them before running at a later date. The test token fallback is only for the isolated local implementation run and is not an application credential. `scripts/verify_runtime.py` can inspect existing PostgreSQL checkpoints and inventory invariants using `DATABASE_URL`.
+Set `CHROME_PATH` if Chrome is not at `/usr/bin/google-chrome`. This writes screenshots and a JSON result. The script computes future dates relative to the current day. The test token fallback is only for the isolated local implementation run and is not an application credential. `scripts/verify_runtime.py` can inspect existing PostgreSQL checkpoints and inventory invariants using `DATABASE_URL`.
 
 Probes consume real temporary inventory. Repeating the same workload can exhaust villas for its shared dates until holds expire. Set `MIRA_LOAD_OFFSET_DAYS=50` (or another future offset) for a fresh Locust contention window, or reset your disposable database. `reports/locust-final.json` captures final counters; periodic CSV snapshots can precede the last requests.

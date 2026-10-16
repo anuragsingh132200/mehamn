@@ -9,7 +9,9 @@
     "successful_booking_hold",
     "state_survives_reload",
     "real_tool_traces_visible",
-    "mobile_layout_without_horizontal_overflow"
+    "mobile_layout_without_horizontal_overflow",
+    "hold_cancelled_through_ui",
+    "cancellation_survives_reload"
   ],
   "page_errors": []
 }

@@ -5,8 +5,8 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-Intent = Literal["search", "select", "policy", "negotiate", "confirm", "human", "complaint", "exception", "injection", "modify", "decline", "greeting", "small_talk", "general_question", "unknown"]
-FieldName = Literal["destination", "check_in", "check_out", "adults", "children", "child_ages", "budget_amount", "budget_basis", "required_amenities", "preferred_amenities", "room_preferences", "special_requests", "add_on_ids"]
+Intent = Literal["search", "select", "policy", "negotiate", "confirm", "cancel", "human", "complaint", "exception", "injection", "modify", "decline", "greeting", "small_talk", "general_question", "unknown"]
+FieldName = Literal["destination", "check_in", "check_out", "adults", "children", "child_ages", "budget_amount", "budget_basis", "required_amenities", "preferred_amenities", "room_preferences", "special_requests"]
 
 class StatePatch(StrictModel):
     field: FieldName
@@ -68,6 +68,7 @@ class Interpretation(StrictModel):
     reference: RecommendationReference | None = None
     explicit_confirmation: bool = False
     declines_pending_action: bool = False
+    explicit_cancellation: bool = False
     negotiation: NegotiationProposal | None = None
     escalations: list[EscalationClassification] = Field(default_factory=list, max_length=4)
     ambiguities: list[str] = Field(default_factory=list, max_length=4)
@@ -75,6 +76,10 @@ class Interpretation(StrictModel):
 
     @model_validator(mode="after")
     def consistent_confirmation(self):
+        changed=[p.field for p in self.patches if p.operation!='UNSET']
+        dates=[d.field for d in self.date_operations]
+        if len(changed)!=len(set(changed)) or len(dates)!=len(set(dates)) or set(changed)&set(dates):
+            raise ValueError("Use exactly one update per field: either a SET/CLEAR patch OR a date operation, never both")
         if self.explicit_confirmation and self.declines_pending_action:
             raise ValueError("A turn cannot both confirm and decline an action")
         return self
@@ -121,7 +126,11 @@ class HoldCall(StrictModel):
     tool: Literal["create_booking_hold"] = "create_booking_hold"
     arguments: EmptyArguments = Field(default_factory=EmptyArguments)
 
-ToolCall = SearchCall | SelectCall | AvailabilityCall | DetailsCall | PriceCall | PolicyCall | DiscountCall | OfferCall | FlagCall | HandoffCall | HoldCall
+class CancelHoldCall(StrictModel):
+    tool: Literal["cancel_booking_hold"] = "cancel_booking_hold"
+    arguments: EmptyArguments = Field(default_factory=EmptyArguments)
+
+ToolCall = CancelHoldCall | SearchCall | SelectCall | AvailabilityCall | DetailsCall | PriceCall | PolicyCall | DiscountCall | OfferCall | FlagCall | HandoffCall | HoldCall
 
 class AgentDecision(StrictModel):
     interpretation: Interpretation = Field(default_factory=Interpretation)

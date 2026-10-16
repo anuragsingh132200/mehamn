@@ -1,40 +1,40 @@
 {
   "kind": "local_smoke_not_capacity_benchmark",
-  "workers": 6,
-  "iterations_each": 3,
-  "elapsed_seconds": 5.845,
-  "requests": 70,
-  "throughput_rps": 11.98,
+  "workers": 3,
+  "iterations_each": 1,
+  "elapsed_seconds": 18.058,
+  "requests": 15,
+  "throughput_rps": 0.83,
   "http_failure_rate": 0.0,
   "operations": {
     "chat_hold_contention": {
-      "requests": 8,
-      "median_ms": 689.72,
-      "p95_ms": 759.45,
+      "requests": 3,
+      "median_ms": 4587.37,
+      "p95_ms": 5178.8,
       "failure_rate": 0.0
     },
     "chat_search_and_availability": {
-      "requests": 18,
-      "median_ms": 955.39,
-      "p95_ms": 1721.2,
+      "requests": 3,
+      "median_ms": 7599.73,
+      "p95_ms": 7625.98,
       "failure_rate": 0.0
     },
     "chat_select": {
-      "requests": 8,
-      "median_ms": 852.59,
-      "p95_ms": 950.29,
+      "requests": 3,
+      "median_ms": 5633.89,
+      "p95_ms": 6469.82,
       "failure_rate": 0.0
     },
     "hotel_search": {
-      "requests": 18,
-      "median_ms": 50.28,
-      "p95_ms": 129.3,
+      "requests": 3,
+      "median_ms": 71.43,
+      "p95_ms": 87.23,
       "failure_rate": 0.0
     },
     "session_create": {
-      "requests": 18,
-      "median_ms": 53.69,
-      "p95_ms": 162.55,
+      "requests": 3,
+      "median_ms": 46.13,
+      "p95_ms": 49.68,
       "failure_rate": 0.0
     }
   },

@@ -103,7 +103,7 @@ class Receptionist:
         if i.declines_pending_action:
             self.state.pending_confirmation=False;self.state.pending_clarification=None
         self.state.pending_clarification=i.clarification_question
-        if self.state.hold and self.state.hold['expires_at']<=now().isoformat():
+        if self.state.hold and self.state.hold.get('status')!='cancelled' and self.state.hold['expires_at']<=now().isoformat():
             self.state.hold['status']='expired';self.state.active_booking_hold_id=None
 
     def validate_state(self):

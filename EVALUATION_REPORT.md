@@ -1,3 +1,7 @@
+# Historical pre-refactor evaluation
+
+This report describes the original offline-parser implementation. Current refactor results are in [REFACTOR_REPORT.md](REFACTOR_REPORT.md).
+
 # Evaluation report
 
 Executed October 16, 2026, on the implementation host. No live LLM results are claimed.

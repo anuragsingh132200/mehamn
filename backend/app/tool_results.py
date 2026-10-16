@@ -77,14 +77,14 @@ class HoldResult(Result):
     quote_id:str
     total_minor:int=Field(ge=0)
     expires_at:str
-    status:Literal['temporary_hold','expired']
+    status:Literal['temporary_hold','expired','cancelled']
     confirmed_reservation:Literal[False]
 class ReviewResult(Result):
     id:str
     status:str
     category:str|None=None
 
-RESULT_SCHEMAS={'search_properties':SearchResult,'check_availability':AvailabilityResult,'get_room_details':RoomResult,'calculate_price':QuoteResult,'get_policy':PolicyResult,'evaluate_discount':DiscountResult,'create_negotiation_offer':OfferResult,'create_booking_hold':HoldResult,'create_escalation_flag':ReviewResult,'request_human_handoff':ReviewResult,'resolve_escalation_flag':ReviewResult}
+RESULT_SCHEMAS={'cancel_booking_hold':HoldResult,'search_properties':SearchResult,'check_availability':AvailabilityResult,'get_room_details':RoomResult,'calculate_price':QuoteResult,'get_policy':PolicyResult,'evaluate_discount':DiscountResult,'create_negotiation_offer':OfferResult,'create_booking_hold':HoldResult,'create_escalation_flag':ReviewResult,'request_human_handoff':ReviewResult,'resolve_escalation_flag':ReviewResult}
 
 def validate_result(name,data):
     RESULT_SCHEMAS[name].model_validate(data)

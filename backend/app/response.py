@@ -35,8 +35,10 @@ def fact_catalog(state,results,reviewed=()):
     if reviewed:facts['review']='Your request has been recorded for staff review. No human response is available yet, and no response time is promised.'
     if state.hold:
         h=state.hold
-        status='expired' if h['expires_at']<=now().isoformat() else h['status']
-        facts['hold']=f"Temporary hold {h['id'][:8]}: {status}; total {rupees(h['total_minor'])}; expiry {h['expires_at']} UTC. This is not a confirmed reservation. No payment has been taken."
+        status='cancelled' if h['status']=='cancelled' else 'expired' if h['expires_at']<=now().isoformat() else h['status']
+        if status=='cancelled':
+            facts['hold']=f"Temporary hold {h['id'][:8]} has been cancelled and its inventory claim released. No payment was taken; no refund was processed."
+        else: facts['hold']=f"Temporary hold {h['id'][:8]}: {status}; total {rupees(h['total_minor'])}; expiry {h['expires_at']} UTC. This is not a confirmed reservation. No payment has been taken."
     if state.pending_confirmation:facts['confirmation_required']='Please review the current quote or offer and explicitly confirm if you want a temporary hold.'
     return facts
 

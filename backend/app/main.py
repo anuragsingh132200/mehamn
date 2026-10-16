@@ -92,7 +92,7 @@ def admin(x_admin_token:str=Header(default="")):
 
 def guest_state(db,c):
     state=s.AgentState.model_validate(c.state)
-    if state.hold and state.hold["expires_at"]<=now().isoformat():
+    if state.hold and state.hold.get("status")!="cancelled" and state.hold["expires_at"]<=now().isoformat():
         state.hold["status"]="expired"; state.active_booking_hold_id=None
     if state.latest_quote_id:
         q=db.get(m.Quote,state.latest_quote_id)

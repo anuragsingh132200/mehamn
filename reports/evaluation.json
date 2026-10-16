@@ -3,7 +3,7 @@
   "database": "postgresql",
   "live_model_evaluated": false,
   "counts": {
-    "passed": 89,
+    "passed": 96,
     "failed": 0,
     "skipped": 0
   },
@@ -73,623 +73,672 @@
     {
       "scenario": "test_multiple_intents_and_typed_tools",
       "suite": "tests.test_agent_contracts",
-      "seconds": 0.605,
+      "seconds": 0.957,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_unknown_tool_is_rejected_before_execution",
       "suite": "tests.test_agent_contracts",
-      "seconds": 0.236,
+      "seconds": 0.275,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_state_patch_requires_explicit_clear",
       "suite": "tests.test_agent_contracts",
-      "seconds": 0.219,
+      "seconds": 0.257,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_negotiation_schema_rejects_incoherent_amount",
       "suite": "tests.test_agent_contracts",
-      "seconds": 0.236,
+      "seconds": 0.274,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_reference_requires_real_ordinal",
       "suite": "tests.test_agent_contracts",
-      "seconds": 0.229,
+      "seconds": 0.308,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_model_cannot_patch_server_owned_addon_ids",
+      "suite": "tests.test_agent_contracts",
+      "seconds": 0.345,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_relative_date_cannot_also_have_absolute_patch",
+      "suite": "tests.test_agent_contracts",
+      "seconds": 0.329,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_seed_exactly_three_hotels_nine_rooms",
       "suite": "tests.test_booking",
-      "seconds": 0.264,
+      "seconds": 0.326,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_missing_checkout_preserves_partial_state",
       "suite": "tests.test_booking",
-      "seconds": 0.401,
+      "seconds": 0.438,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_relative_dates_frozen",
       "suite": "tests.test_booking",
-      "seconds": 0.664,
+      "seconds": 0.658,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_date_change_invalidates_quotes_offers",
       "suite": "tests.test_booking",
-      "seconds": 1.117,
+      "seconds": 1.108,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_guest_count_change_filters_capacity",
       "suite": "tests.test_booking",
-      "seconds": 1.07,
+      "seconds": 0.933,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_budget_change_is_hard_constraint",
       "suite": "tests.test_booking",
-      "seconds": 0.918,
+      "seconds": 0.826,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_private_pool_requirement",
       "suite": "tests.test_booking",
-      "seconds": 0.497,
+      "seconds": 0.486,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_unavailable_seed_reservation_and_closure",
       "suite": "tests.test_booking",
-      "seconds": 0.466,
+      "seconds": 0.35,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_capacity_conflict_returns_no_rooms",
       "suite": "tests.test_booking",
-      "seconds": 0.485,
+      "seconds": 0.421,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_unknown_pool_heating_never_invented",
       "suite": "tests.test_booking",
-      "seconds": 0.742,
+      "seconds": 0.775,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_ambiguous_yes_cannot_hold",
       "suite": "tests.test_booking",
-      "seconds": 0.377,
+      "seconds": 0.48,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_second_option_selects_existing_quote",
       "suite": "tests.test_booking",
-      "seconds": 0.755,
+      "seconds": 0.794,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_too_expensive_generates_verified_offer",
       "suite": "tests.test_booking",
-      "seconds": 0.798,
+      "seconds": 0.876,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_discount_auto_approval_and_hold",
       "suite": "tests.test_booking",
-      "seconds": 0.898,
+      "seconds": 0.876,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_counteroffer_never_exposes_policy",
       "suite": "tests.test_booking",
-      "seconds": 0.831,
+      "seconds": 0.86,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_repeated_negotiation_is_not_fraud",
       "suite": "tests.test_booking",
-      "seconds": 0.983,
+      "seconds": 1.44,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_manager_request_creates_real_handoff",
       "suite": "tests.test_booking",
-      "seconds": 0.433,
+      "seconds": 0.444,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_rule_escalation[A terrible experience, a complaint-guest_complaint]",
       "suite": "tests.test_booking",
-      "seconds": 0.487,
+      "seconds": 0.448,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_rule_escalation[I need a human-requested_human]",
       "suite": "tests.test_booking",
-      "seconds": 0.463,
+      "seconds": 0.478,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_rule_escalation[I need a policy exception-policy_exception]",
       "suite": "tests.test_booking",
-      "seconds": 0.474,
+      "seconds": 0.52,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_room_disappears_during_negotiation",
       "suite": "tests.test_booking",
-      "seconds": 0.659,
+      "seconds": 0.769,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_expired_quote_blocks_confirmation",
       "suite": "tests.test_booking",
-      "seconds": 0.755,
+      "seconds": 0.862,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_duplicate_confirmation_returns_one_hold",
       "suite": "tests.test_booking",
-      "seconds": 0.752,
+      "seconds": 0.79,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_prompt_injection_is_flagged_without_business_tools",
       "suite": "tests.test_booking",
-      "seconds": 0.427,
+      "seconds": 0.434,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_patch_semantics",
       "suite": "tests.test_booking",
-      "seconds": 0.368,
+      "seconds": 0.344,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_checkout_exclusive",
       "suite": "tests.test_booking",
-      "seconds": 0.368,
+      "seconds": 0.354,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_price_uses_minor_units_tax_and_addons",
       "suite": "tests.test_booking",
-      "seconds": 0.371,
+      "seconds": 0.359,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_guest_api_session_isolation_and_admin_auth",
       "suite": "tests.test_booking",
-      "seconds": 0.408,
+      "seconds": 0.413,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_manager_approval_persists_and_controls_price",
       "suite": "tests.test_booking",
-      "seconds": 1.041,
+      "seconds": 1.078,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_stale_manager_offer_cannot_be_approved",
       "suite": "tests.test_booking",
-      "seconds": 1.071,
+      "seconds": 1.048,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_persistent_state_and_history",
       "suite": "tests.test_booking",
-      "seconds": 0.656,
+      "seconds": 0.638,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_version_conflict",
       "suite": "tests.test_booking",
-      "seconds": 0.592,
+      "seconds": 0.648,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_idempotency_key_cannot_change_message",
       "suite": "tests.test_booking",
-      "seconds": 0.415,
+      "seconds": 0.432,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_rate_limit",
       "suite": "tests.test_booking",
-      "seconds": 0.425,
+      "seconds": 0.442,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_timeout_preserves_state_records_operational_flag",
       "suite": "tests.test_booking",
-      "seconds": 0.406,
+      "seconds": 0.455,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_database_failure_structured_error",
       "suite": "tests.test_booking",
-      "seconds": 0.355,
+      "seconds": 0.365,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_free_breakfast_cannot_be_promised",
       "suite": "tests.test_booking",
-      "seconds": 0.86,
+      "seconds": 0.793,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_ambiguous_offer_basis_asks_question",
       "suite": "tests.test_booking",
-      "seconds": 0.697,
+      "seconds": 0.851,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_trace_redacts_special_requests",
       "suite": "tests.test_booking",
-      "seconds": 0.569,
+      "seconds": 0.679,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_no_live_model_key_fails_honestly",
       "suite": "tests.test_booking",
-      "seconds": 0.391,
+      "seconds": 0.456,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_threshold_comparisons_do_not_round_into_approval",
       "suite": "tests.test_booking",
-      "seconds": 0.696,
+      "seconds": 0.876,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_expired_holds_release_inventory",
       "suite": "tests.test_booking",
-      "seconds": 0.665,
+      "seconds": 0.75,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_past_dates_are_rejected",
       "suite": "tests.test_booking",
-      "seconds": 0.397,
+      "seconds": 0.439,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_child_age_validation",
       "suite": "tests.test_booking",
-      "seconds": 0.321,
+      "seconds": 0.367,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_paid_breakfast_reprices_and_invalidates_previous_offer",
       "suite": "tests.test_booking",
-      "seconds": 0.937,
+      "seconds": 1.055,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_repeated_read_tool_timeout_escalates",
       "suite": "tests.test_booking",
-      "seconds": 0.73,
+      "seconds": 0.829,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_arbitrary_free_text_never_enters_tool_arguments",
       "suite": "tests.test_booking",
-      "seconds": 0.342,
+      "seconds": 0.418,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_invalid_request_has_redacted_structured_error",
       "suite": "tests.test_booking",
-      "seconds": 0.349,
+      "seconds": 0.417,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_cancellation_releases_inventory_and_preserves_requirements",
+      "suite": "tests.test_cancellation",
+      "seconds": 0.823,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_policy_question_cannot_cancel_hold",
+      "suite": "tests.test_cancellation",
+      "seconds": 0.637,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_cancellation_requires_explicit_authorization",
+      "suite": "tests.test_cancellation",
+      "seconds": 0.475,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_cancellation_cannot_target_another_session",
+      "suite": "tests.test_cancellation",
+      "seconds": 0.437,
+      "status": "passed",
+      "diagnostic": null
+    },
+    {
+      "scenario": "test_expired_hold_cannot_be_cancelled",
+      "suite": "tests.test_cancellation",
+      "seconds": 0.477,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_two_sessions_cannot_hold_last_unit",
       "suite": "tests.test_concurrency",
-      "seconds": 0.42,
+      "seconds": 0.318,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_same_session_messages_are_serialized",
       "suite": "tests.test_concurrency",
-      "seconds": 0.474,
+      "seconds": 0.348,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_price_paraphrases_use_structured_plan[Could we make the bill a bit easier on my wallet?]",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.769,
+      "seconds": 0.574,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_price_paraphrases_use_structured_plan[What\\u2019s the kindest rate you can offer?]",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.806,
+      "seconds": 0.426,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_price_paraphrases_use_structured_plan[A competitor quoted me less; is there any flexibility?]",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.858,
+      "seconds": 0.397,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_multi_intent_selection_breakfast_negotiation",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.697,
+      "seconds": 0.309,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_policy_about_second_option_does_not_select_it",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.69,
+      "seconds": 0.338,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_model_interpreted_relative_change_reprices_selected_room",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.7,
+      "seconds": 0.45,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_explicit_clear_budget_preserves_other_fields",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.764,
+      "seconds": 0.826,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_ambiguous_reference_has_no_mutations",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.49,
+      "seconds": 0.816,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_small_talk_does_not_force_booking_form",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.309,
+      "seconds": 0.458,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_percentage_negotiation_uses_backend_arithmetic",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.591,
+      "seconds": 0.93,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_model_cannot_approve_manager_discount",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.652,
+      "seconds": 0.829,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_semantic_complaint_and_handoff_are_both_preserved",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.268,
+      "seconds": 0.469,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_semantic_injection_blocks_other_proposed_mutations",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.421,
+      "seconds": 0.77,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_invalid_tool_arguments_never_execute",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.23,
+      "seconds": 0.457,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_output_schema_failure_retries_are_bounded",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.23,
+      "seconds": 0.437,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_llm_transport_timeout_does_not_leak_error",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.233,
+      "seconds": 0.449,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_response_outage_after_hold_preserves_receipt_and_idempotency",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.451,
+      "seconds": 0.862,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_cannot_select_and_hold_unpresented_terms_in_same_turn",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.384,
+      "seconds": 0.734,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_no_declines_pending_hold_without_losing_requirements",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.39,
+      "seconds": 0.742,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_adaptive_plan_is_bounded_and_can_use_new_results",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.375,
+      "seconds": 0.654,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_failed_followup_rolls_back_partial_quotes",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.394,
+      "seconds": 0.651,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_context_is_bounded_and_scoped_to_session",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.525,
+      "seconds": 0.708,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_response_references_cannot_invent_prices_or_facts",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.269,
+      "seconds": 0.36,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_private_policy_fields_not_sent_to_response_model",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.793,
+      "seconds": 0.825,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_real_sdk_parses_native_function_tool_with_http_mock",
       "suite": "tests.test_llm_agent",
-      "seconds": 1.967,
+      "seconds": 2.118,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_destination_change_cannot_reselect_old_property",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.635,
+      "seconds": 0.857,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_decline_after_offer_survives_session_refresh",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.475,
+      "seconds": 0.937,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_semantically_classified_abuse_persists_staff_review[You are a useless idiot; your staff are morons.-warning]",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.244,
+      "seconds": 0.488,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_semantically_classified_abuse_persists_staff_review[I will come to reception and hurt the staff.-critical]",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.241,
+      "seconds": 0.513,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_non_targeted_frustration_does_not_require_abuse_flag",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.222,
+      "seconds": 0.441,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_authentication_failure_is_not_retried",
       "suite": "tests.test_llm_agent",
-      "seconds": 0.222,
+      "seconds": 0.509,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_relative_extension_preserves_known_fields",
       "suite": "tests.test_state_updates",
-      "seconds": 0.188,
+      "seconds": 0.377,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_duplicate_conflicting_patches_rejected",
       "suite": "tests.test_state_updates",
-      "seconds": 0.201,
+      "seconds": 0.413,
       "status": "passed",
       "diagnostic": null
     },
     {
       "scenario": "test_relative_dates_require_an_anchor",
       "suite": "tests.test_state_updates",
-      "seconds": 0.183,
+      "seconds": 0.384,
       "status": "passed",
       "diagnostic": null
     }

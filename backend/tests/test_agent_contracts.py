@@ -21,3 +21,11 @@ def test_negotiation_schema_rejects_incoherent_amount():
 def test_reference_requires_real_ordinal():
     with pytest.raises(ValidationError):RecommendationReference(source='recommendation')
     with pytest.raises(ValidationError):RecommendationReference(source='recommendation',index=0)
+
+def test_model_cannot_patch_server_owned_addon_ids():
+    with pytest.raises(ValidationError):
+        AgentDecision.model_validate({'interpretation':{'patches':[{'field':'add_on_ids','operation':'SET','value':['breakfast']}]}})
+
+def test_relative_date_cannot_also_have_absolute_patch():
+    with pytest.raises(ValidationError):
+        AgentDecision.model_validate({'interpretation':{'patches':[{'field':'check_out','operation':'SET','value':'2027-01-05'}],'date_operations':[{'field':'check_out','operation':'shift_days','days':1}]}})
