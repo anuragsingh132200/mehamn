@@ -43,6 +43,6 @@ summary={}
 for op in sorted(set(r['operation'] for r in rows)):
     subset=[r for r in rows if r['operation']==op];lat=sorted(r['latency_ms'] for r in subset)
     summary[op]={'requests':len(subset),'median_ms':round(statistics.median(lat),2),'p95_ms':round(lat[min(len(lat)-1,int(len(lat)*.95))],2),'failure_rate':sum(not r['success'] for r in subset)/len(subset)}
-result={'kind':'local_smoke_not_capacity_benchmark','workers':args.workers,'iterations_each':args.iterations,'elapsed_seconds':round(elapsed,3),'requests':len(rows),'throughput_rps':round(len(rows)/elapsed,2),'http_failure_rate':sum(not r['success'] for r in rows)/len(rows) if rows else 1,'operations':summary,'note':'HTTP 200 may contain a correct business rejection due to inventory contention. Booking safety is asserted separately in PostgreSQL concurrency tests.'}
+result={'mode':health.get('llm_mode'),'kind':'local_smoke_not_capacity_benchmark','workers':args.workers,'iterations_each':args.iterations,'elapsed_seconds':round(elapsed,3),'requests':len(rows),'throughput_rps':round(len(rows)/elapsed,2),'http_failure_rate':sum(not r['success'] for r in rows)/len(rows) if rows else 1,'operations':summary,'note':'HTTP 200 may contain a correct business rejection due to inventory contention. Booking safety is asserted separately in PostgreSQL concurrency tests.'}
 path=Path(__file__).resolve().parents[1]/'reports/load-smoke.json';path.write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
 raise SystemExit(0 if rows and all(r['success'] for r in rows) else 1)

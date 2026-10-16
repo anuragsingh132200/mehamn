@@ -69,11 +69,14 @@ def multi(g):
  g.chat('I like the second villa. Please add paid breakfast, and can you improve the price too?')
  assert g.state['selected_room_type_id']==target
  assert g.state['quote']['add_ons'] and g.state['negotiation_state']['status'] in ('accepted','countered')
- previous=g.state['latest_quote_id']
+ previous=g.state['latest_quote_id'];previous_offer=g.state['negotiation_state']['id']
  g.chat('Actually, make it three adults and extend the checkout by one night. Keep everything else.')
  assert g.state['booking_requirements']['adults']==3
  assert g.state['booking_requirements']['check_out']==str(g.arrival+timedelta(days=3))
- assert g.state['latest_quote_id']!=previous and not g.state['negotiation_state']
+ assert g.state['latest_quote_id']!=previous
+ offers=g.client.get('/api/sessions/'+g.session['session_id']+'/offers',headers=g.headers).json()
+ assert next(o for o in offers if o['id']==previous_offer)['status']=='expired'
+ if g.state['negotiation_state']:assert g.state['negotiation_state']['quote_id']==g.state['latest_quote_id']
  assert g.state['quote']['nights']==3
 
 def policy(g):
@@ -129,11 +132,13 @@ if __name__=='__main__':
  except APIStatusError as exc:
   body=exc.body if isinstance(exc.body,dict) else {}
   report={'mode':'live_openai_http','status':'blocked','http_status':exc.status_code,'error_code':body.get('code'),'scenarios_executed':0,'model':settings.openai_model}
-  (ROOT/'reports/live-scenarios.json').write_text(json.dumps(report,indent=2));print(json.dumps(report));raise SystemExit(2)
+  (ROOT/'reports'/('live-scenarios-targeted.json' if os.environ.get('MIRA_LIVE_ONLY') else 'live-scenarios.json')).write_text(json.dumps(report,indent=2));print(json.dumps(report));raise SystemExit(2)
  jobs=[('booking_negotiation_idempotency',booking),('manager_authorization_approval',manager),('multi_intent_relative_reprice',multi),('referenced_unknown_policy',policy),('ambiguous_confirmation',ambiguity),('capacity_no_availability',unavailable),('multilingual_small_talk',smalltalk),('non_abusive_frustration',frustration),('prompt_injection',injection),('human_handoff',lambda g:signal(g,'This is really confusing; I want a human receptionist to take over.','requested_human')),('targeted_abuse',lambda g:signal(g,'You are a useless idiot and your staff are morons.','abusive_language')),('credible_threat',lambda g:signal(g,'I will come to reception and physically hurt your staff.','abusive_language')),('complaint',lambda g:signal(g,'The room is filthy and I am very unhappy with the service. Please record my complaint.','guest_complaint')),('cancellation',cancellation),('free_breakfast',lambda g:(g.search(90),g.select(),signal(g,'Can you throw in complimentary breakfast at no charge?','unsupported_request')))]
+ only=set(filter(None,os.environ.get('MIRA_LIVE_ONLY','').split(',')))
+ if only:jobs=[job for job in jobs if job[0] in only]
  with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(lambda job:run(*job),jobs))
  timings=[t['seconds'] for r in results for t in r['turns']]
  report={'mode':'live_openai_http','model':settings.openai_model,'parallel_sessions':3,'elapsed_seconds':round(time.perf_counter()-start,2),'passed':sum(r['status']=='passed' for r in results),'failed':sum(r['status']=='failed' for r in results),'turns':len(timings),'median_turn_seconds':statistics.median(timings) if timings else None,'max_turn_seconds':max(timings,default=0),'results':results,'limitation':'Small functional/concurrency probe, not a capacity benchmark or exhaustive language evaluation.'}
- (ROOT/'reports/live-scenarios.json').write_text(json.dumps(report,indent=2))
+ (ROOT/'reports'/('live-scenarios-targeted.json' if os.environ.get('MIRA_LIVE_ONLY') else 'live-scenarios.json')).write_text(json.dumps(report,indent=2))
  print(json.dumps({k:v for k,v in report.items() if k!='results'}))
  raise SystemExit(1 if report['failed'] else 0)

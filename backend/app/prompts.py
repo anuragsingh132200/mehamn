@@ -255,3 +255,13 @@ After date or add-on changes, quote invalidation clears the previous offer.
 Never include create_booking_hold alongside select_room, calculate_price or
 create_negotiation_offer. New terms must be presented before explicit confirmation.
 """
+
+PLANNER_PROMPT += """
+recommendation_references is a bounded ledger of the last displayed option order;
+its old quotes are historical, not current prices. It permits resolving an old
+ordinal after repricing clears cards. Prefer {source:"selected",index:null} for
+changing the selected room's dates or guests. Do not reapply previously purchased
+breakfast in a later message that only changes occupancy/dates; add_on_ids in the
+requirements already preserve that purchase. Do not reissue previously completed
+actions from history. Interpret only the latest guest message.
+"""

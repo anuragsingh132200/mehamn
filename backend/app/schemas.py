@@ -33,6 +33,7 @@ class AgentState(BaseModel):
     selected_property_id: str | None = None
     selected_room_type_id: str | None = None
     latest_recommendations: list[dict] = Field(default_factory=list)
+    recommendation_references: list[dict] = Field(default_factory=list, max_length=3)
     latest_quote_id: str | None = None
     negotiation_state: dict = Field(default_factory=dict)
     pending_confirmation: bool = False

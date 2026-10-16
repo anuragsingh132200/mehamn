@@ -55,8 +55,9 @@ def render_response(output,facts):
     if output.follow_up_question:rendered+=' '+output.follow_up_question
     return rendered
 
-def generate_response(gateway,message,state,history,results,reviewed=()):
+def generate_response(gateway,message,state,history,results,reviewed=(),validation_notice=None):
     facts=fact_catalog(state,results,reviewed)
+    if validation_notice:facts["validation_notice"]=validation_notice
     context=build_context(message,state,history,results)
     context['fact_catalog']=facts
     output=gateway.parse(GroundedResponse,context,RESPONSE_PROMPT,'response')

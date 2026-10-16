@@ -1,0 +1,664 @@
+{
+  "mode": "live_openai_http",
+  "model": "gpt-4.1",
+  "parallel_sessions": 3,
+  "elapsed_seconds": 32.85,
+  "passed": 1,
+  "failed": 0,
+  "turns": 3,
+  "median_turn_seconds": 9.629,
+  "max_turn_seconds": 12.511,
+  "results": [
+    {
+      "scenario": "multi_intent_relative_reprice",
+      "status": "passed",
+      "turns": [
+        {
+          "message": "Goa from 2027-01-02 to 2027-01-04, two adults. A private pool is essential.",
+          "status": 200,
+          "seconds": 7.227,
+          "response": "Here are the available options matching your requirements for a private pool in Goa: Option 1: Plunge Pool Villa at Casa Mar\u00e9 \u00b7 Fictional in Anjuna, North Goa; capacity 3. Verified amenities: wifi, shared_pool, restaurant, private_pool, villa. Total \u20b933,600.00 for 2 nights, including tax. Option 2: Private Pool Villa at Tide & Palm Retreat \u00b7 Fictional in Candolim, North Goa; capacity 4. Verified amenities: wifi, shared_pool, beach_access, private_pool, villa. Total \u20b940,320.00 for 2 nights, including tax. Option 3: Pool Residence at Lagoon House \u00b7 Fictional in Palolem, South Goa; capacity 5. Verified amenities: wifi, beach_access, parking, private_pool, villa, kitchenette. Total \u20b947,040.00 for 2 nights, including tax. Would you like to explore details or policies for any of these options?",
+          "state": {
+            "session_id": "a71997f6-832c-489b-a3d1-f2e80d1df028",
+            "messages": [],
+            "booking_requirements": {
+              "destination": "Goa",
+              "check_in": "2027-01-02",
+              "check_out": "2027-01-04",
+              "adults": 2,
+              "children": 0,
+              "child_ages": [],
+              "budget_amount": null,
+              "budget_basis": "night",
+              "required_amenities": [
+                "private_pool"
+              ],
+              "preferred_amenities": [],
+              "room_preferences": [],
+              "special_requests": [],
+              "add_on_ids": []
+            },
+            "active_intent": "search",
+            "secondary_intents": [],
+            "pending_clarification": "Would you like to explore details or policies for any of these options?",
+            "model_usage": {
+              "calls": 2,
+              "input_tokens": 11265,
+              "output_tokens": 311,
+              "model": "gpt-4.1",
+              "prompt_version": "mira-receptionist-2.2"
+            },
+            "response_degraded": false,
+            "selected_property_id": null,
+            "selected_room_type_id": null,
+            "latest_recommendations": [
+              {
+                "room_type_id": "daa22c6e-ece4-57b6-bc09-b8aecfdf467e",
+                "property_id": "46a7e77d-f59d-5a27-81d7-2d77d31bf0e4",
+                "property_name": "Casa Mar\u00e9 \u00b7 Fictional",
+                "location": "Anjuna, North Goa",
+                "room_name": "Plunge Pool Villa",
+                "description": "Plunge Pool Villa with space for up to 3 guests. Fictional inventory.",
+                "capacity": 3,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "restaurant",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1500000,
+                  "base_minor": 3000000,
+                  "add_ons": [],
+                  "tax_minor": 360000,
+                  "total_minor": 3360000,
+                  "fictional": true,
+                  "id": "3fef2551-45a4-42d6-87c3-88808d69eb31",
+                  "expires_at": "2026-10-16T06:49:01.019838"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+                "property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+                "property_name": "Tide & Palm Retreat \u00b7 Fictional",
+                "location": "Candolim, North Goa",
+                "room_name": "Private Pool Villa",
+                "description": "Private Pool Villa with space for up to 4 guests. Fictional inventory.",
+                "capacity": 4,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "beach_access",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1800000,
+                  "base_minor": 3600000,
+                  "add_ons": [],
+                  "tax_minor": 432000,
+                  "total_minor": 4032000,
+                  "fictional": true,
+                  "id": "37b06b7f-12d0-4aa6-956f-f697b5b300af",
+                  "expires_at": "2026-10-16T06:49:01.047199"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "bf5d994f-a7fa-52c3-9b85-30aa7c649c13",
+                "property_id": "2d330d48-c0c0-5701-8f48-68a9f654845e",
+                "property_name": "Lagoon House \u00b7 Fictional",
+                "location": "Palolem, South Goa",
+                "room_name": "Pool Residence",
+                "description": "Pool Residence with space for up to 5 guests. Fictional inventory.",
+                "capacity": 5,
+                "amenities": [
+                  "wifi",
+                  "beach_access",
+                  "parking",
+                  "private_pool",
+                  "villa",
+                  "kitchenette"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 2100000,
+                  "base_minor": 4200000,
+                  "add_ons": [],
+                  "tax_minor": 504000,
+                  "total_minor": 4704000,
+                  "fictional": true,
+                  "id": "9b05dc5e-b200-4a19-b03b-908b4df3f3cb",
+                  "expires_at": "2026-10-16T06:49:01.074747"
+                },
+                "preference_score": 0
+              }
+            ],
+            "recommendation_references": [
+              {
+                "room_type_id": "daa22c6e-ece4-57b6-bc09-b8aecfdf467e",
+                "property_id": "46a7e77d-f59d-5a27-81d7-2d77d31bf0e4",
+                "property_name": "Casa Mar\u00e9 \u00b7 Fictional",
+                "location": "Anjuna, North Goa",
+                "room_name": "Plunge Pool Villa",
+                "description": "Plunge Pool Villa with space for up to 3 guests. Fictional inventory.",
+                "capacity": 3,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "restaurant",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1500000,
+                  "base_minor": 3000000,
+                  "add_ons": [],
+                  "tax_minor": 360000,
+                  "total_minor": 3360000,
+                  "fictional": true,
+                  "id": "3fef2551-45a4-42d6-87c3-88808d69eb31",
+                  "expires_at": "2026-10-16T06:49:01.019838"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+                "property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+                "property_name": "Tide & Palm Retreat \u00b7 Fictional",
+                "location": "Candolim, North Goa",
+                "room_name": "Private Pool Villa",
+                "description": "Private Pool Villa with space for up to 4 guests. Fictional inventory.",
+                "capacity": 4,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "beach_access",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1800000,
+                  "base_minor": 3600000,
+                  "add_ons": [],
+                  "tax_minor": 432000,
+                  "total_minor": 4032000,
+                  "fictional": true,
+                  "id": "37b06b7f-12d0-4aa6-956f-f697b5b300af",
+                  "expires_at": "2026-10-16T06:49:01.047199"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "bf5d994f-a7fa-52c3-9b85-30aa7c649c13",
+                "property_id": "2d330d48-c0c0-5701-8f48-68a9f654845e",
+                "property_name": "Lagoon House \u00b7 Fictional",
+                "location": "Palolem, South Goa",
+                "room_name": "Pool Residence",
+                "description": "Pool Residence with space for up to 5 guests. Fictional inventory.",
+                "capacity": 5,
+                "amenities": [
+                  "wifi",
+                  "beach_access",
+                  "parking",
+                  "private_pool",
+                  "villa",
+                  "kitchenette"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 2100000,
+                  "base_minor": 4200000,
+                  "add_ons": [],
+                  "tax_minor": 504000,
+                  "total_minor": 4704000,
+                  "fictional": true,
+                  "id": "9b05dc5e-b200-4a19-b03b-908b4df3f3cb",
+                  "expires_at": "2026-10-16T06:49:01.074747"
+                },
+                "preference_score": 0
+              }
+            ],
+            "latest_quote_id": null,
+            "negotiation_state": {},
+            "pending_confirmation": false,
+            "active_booking_hold_id": null,
+            "escalation_status": "none",
+            "last_tool_results": [
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "search_properties",
+                "success": true
+              }
+            ],
+            "next_action": "select_room",
+            "state_version": 1,
+            "quote": null,
+            "hold": null
+          }
+        },
+        {
+          "message": "I like the second villa. Please add paid breakfast, and can you improve the price too?",
+          "status": 200,
+          "seconds": 9.629,
+          "response": "The Private Pool Villa at Tide & Palm Retreat is available for your selected stay. Paid breakfast has been included in the updated offer. Private Pool Villa: Private Pool Villa with space for up to 4 guests. Fictional inventory. Recorded amenities: wifi, shared_pool, beach_access, private_pool, villa. Capacity: 4. The current quote is \u20b943,232.00 for 2 nights, including tax and selected add-ons. Quote expiry: 2026-10-16T06:49:06.383721 UTC. The approved offer is \u20b941,070.40 for the full stay, including tax. Guest confirmation is required before a temporary hold. If you would like to secure this villa and rate, please let me know so I can place a temporary hold for you. Would you like to confirm and place a temporary hold on this villa at the approved offer?",
+          "state": {
+            "session_id": "a71997f6-832c-489b-a3d1-f2e80d1df028",
+            "messages": [],
+            "booking_requirements": {
+              "destination": "Goa",
+              "check_in": "2027-01-02",
+              "check_out": "2027-01-04",
+              "adults": 2,
+              "children": 0,
+              "child_ages": [],
+              "budget_amount": null,
+              "budget_basis": "night",
+              "required_amenities": [
+                "private_pool"
+              ],
+              "preferred_amenities": [],
+              "room_preferences": [],
+              "special_requests": [],
+              "add_on_ids": [
+                "67e7e33b-fa4d-5db5-8821-bdb29856b39e"
+              ]
+            },
+            "active_intent": "select",
+            "secondary_intents": [
+              "modify",
+              "negotiate"
+            ],
+            "pending_clarification": "Would you like to confirm and place a temporary hold on this villa at the approved offer?",
+            "model_usage": {
+              "calls": 3,
+              "input_tokens": 19608,
+              "output_tokens": 512,
+              "model": "gpt-4.1",
+              "prompt_version": "mira-receptionist-2.2"
+            },
+            "response_degraded": false,
+            "selected_property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+            "selected_room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+            "latest_recommendations": [],
+            "recommendation_references": [
+              {
+                "room_type_id": "daa22c6e-ece4-57b6-bc09-b8aecfdf467e",
+                "property_id": "46a7e77d-f59d-5a27-81d7-2d77d31bf0e4",
+                "property_name": "Casa Mar\u00e9 \u00b7 Fictional",
+                "location": "Anjuna, North Goa",
+                "room_name": "Plunge Pool Villa",
+                "description": "Plunge Pool Villa with space for up to 3 guests. Fictional inventory.",
+                "capacity": 3,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "restaurant",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1500000,
+                  "base_minor": 3000000,
+                  "add_ons": [],
+                  "tax_minor": 360000,
+                  "total_minor": 3360000,
+                  "fictional": true,
+                  "id": "3fef2551-45a4-42d6-87c3-88808d69eb31",
+                  "expires_at": "2026-10-16T06:49:01.019838"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+                "property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+                "property_name": "Tide & Palm Retreat \u00b7 Fictional",
+                "location": "Candolim, North Goa",
+                "room_name": "Private Pool Villa",
+                "description": "Private Pool Villa with space for up to 4 guests. Fictional inventory.",
+                "capacity": 4,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "beach_access",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1800000,
+                  "base_minor": 3600000,
+                  "add_ons": [],
+                  "tax_minor": 432000,
+                  "total_minor": 4032000,
+                  "fictional": true,
+                  "id": "37b06b7f-12d0-4aa6-956f-f697b5b300af",
+                  "expires_at": "2026-10-16T06:49:01.047199"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "bf5d994f-a7fa-52c3-9b85-30aa7c649c13",
+                "property_id": "2d330d48-c0c0-5701-8f48-68a9f654845e",
+                "property_name": "Lagoon House \u00b7 Fictional",
+                "location": "Palolem, South Goa",
+                "room_name": "Pool Residence",
+                "description": "Pool Residence with space for up to 5 guests. Fictional inventory.",
+                "capacity": 5,
+                "amenities": [
+                  "wifi",
+                  "beach_access",
+                  "parking",
+                  "private_pool",
+                  "villa",
+                  "kitchenette"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 2100000,
+                  "base_minor": 4200000,
+                  "add_ons": [],
+                  "tax_minor": 504000,
+                  "total_minor": 4704000,
+                  "fictional": true,
+                  "id": "9b05dc5e-b200-4a19-b03b-908b4df3f3cb",
+                  "expires_at": "2026-10-16T06:49:01.074747"
+                },
+                "preference_score": 0
+              }
+            ],
+            "latest_quote_id": "a9d92c08-c8fe-4fde-b878-bb871806c79a",
+            "negotiation_state": {
+              "id": "dc2292e5-6eee-476e-9004-7beb661e9df0",
+              "quote_id": "a9d92c08-c8fe-4fde-b878-bb871806c79a",
+              "status": "accepted",
+              "approved_amount": 4107040,
+              "proposed_amount": 4107040,
+              "expires_at": "2026-10-16T06:49:06.383721",
+              "attempts": 1
+            },
+            "pending_confirmation": true,
+            "active_booking_hold_id": null,
+            "escalation_status": "none",
+            "last_tool_results": [
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "get_room_details",
+                "success": true
+              },
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "get_room_details",
+                "success": true
+              },
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "evaluate_discount",
+                "success": true
+              },
+              {
+                "tool_name": "create_negotiation_offer",
+                "success": true
+              }
+            ],
+            "next_action": "execute_tools",
+            "state_version": 2,
+            "quote": {
+              "currency": "INR",
+              "nights": 2,
+              "nightly_minor": 1800000,
+              "base_minor": 3600000,
+              "add_ons": [
+                {
+                  "id": "67e7e33b-fa4d-5db5-8821-bdb29856b39e",
+                  "name": "Breakfast",
+                  "amount_minor": 260000
+                }
+              ],
+              "tax_minor": 463200,
+              "total_minor": 4323200,
+              "fictional": true,
+              "id": "a9d92c08-c8fe-4fde-b878-bb871806c79a",
+              "expires_at": "2026-10-16T06:49:06.383721"
+            },
+            "hold": null
+          }
+        },
+        {
+          "message": "Actually, make it three adults and extend the checkout by one night. Keep everything else.",
+          "status": 200,
+          "seconds": 12.511,
+          "response": "Your updated request for three adults with an extended stay has been processed. Here is the current room information: Private Pool Villa: Private Pool Villa with space for up to 4 guests. Fictional inventory. Recorded amenities: wifi, shared_pool, beach_access, private_pool, villa. Capacity: 4. The current quote is \u20b967,032.00 for 3 nights, including tax and selected add-ons. Quote expiry: 2026-10-16T06:49:15.736676 UTC. This room is available for the requested stay at the time of checking. Would you like to confirm and place a temporary hold on this villa and the updated offer?",
+          "state": {
+            "session_id": "a71997f6-832c-489b-a3d1-f2e80d1df028",
+            "messages": [],
+            "booking_requirements": {
+              "destination": "Goa",
+              "check_in": "2027-01-02",
+              "check_out": "2027-01-05",
+              "adults": 3,
+              "children": 0,
+              "child_ages": [],
+              "budget_amount": null,
+              "budget_basis": "night",
+              "required_amenities": [
+                "private_pool"
+              ],
+              "preferred_amenities": [],
+              "room_preferences": [],
+              "special_requests": [],
+              "add_on_ids": [
+                "67e7e33b-fa4d-5db5-8821-bdb29856b39e"
+              ]
+            },
+            "active_intent": "modify",
+            "secondary_intents": [
+              "select",
+              "negotiate"
+            ],
+            "pending_clarification": "Would you like to confirm and place a temporary hold on this villa and the updated offer?",
+            "model_usage": {
+              "calls": 4,
+              "input_tokens": 25098,
+              "output_tokens": 630,
+              "model": "gpt-4.1",
+              "prompt_version": "mira-receptionist-2.2"
+            },
+            "response_degraded": false,
+            "selected_property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+            "selected_room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+            "latest_recommendations": [],
+            "recommendation_references": [
+              {
+                "room_type_id": "daa22c6e-ece4-57b6-bc09-b8aecfdf467e",
+                "property_id": "46a7e77d-f59d-5a27-81d7-2d77d31bf0e4",
+                "property_name": "Casa Mar\u00e9 \u00b7 Fictional",
+                "location": "Anjuna, North Goa",
+                "room_name": "Plunge Pool Villa",
+                "description": "Plunge Pool Villa with space for up to 3 guests. Fictional inventory.",
+                "capacity": 3,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "restaurant",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1500000,
+                  "base_minor": 3000000,
+                  "add_ons": [],
+                  "tax_minor": 360000,
+                  "total_minor": 3360000,
+                  "fictional": true,
+                  "id": "3fef2551-45a4-42d6-87c3-88808d69eb31",
+                  "expires_at": "2026-10-16T06:49:01.019838"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "c5512371-da6d-556c-96fb-e41f4df5caf5",
+                "property_id": "7ea427c9-4549-5b9e-a0d8-1a6e2b3ab4a4",
+                "property_name": "Tide & Palm Retreat \u00b7 Fictional",
+                "location": "Candolim, North Goa",
+                "room_name": "Private Pool Villa",
+                "description": "Private Pool Villa with space for up to 4 guests. Fictional inventory.",
+                "capacity": 4,
+                "amenities": [
+                  "wifi",
+                  "shared_pool",
+                  "beach_access",
+                  "private_pool",
+                  "villa"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 1800000,
+                  "base_minor": 3600000,
+                  "add_ons": [],
+                  "tax_minor": 432000,
+                  "total_minor": 4032000,
+                  "fictional": true,
+                  "id": "37b06b7f-12d0-4aa6-956f-f697b5b300af",
+                  "expires_at": "2026-10-16T06:49:01.047199"
+                },
+                "preference_score": 0
+              },
+              {
+                "room_type_id": "bf5d994f-a7fa-52c3-9b85-30aa7c649c13",
+                "property_id": "2d330d48-c0c0-5701-8f48-68a9f654845e",
+                "property_name": "Lagoon House \u00b7 Fictional",
+                "location": "Palolem, South Goa",
+                "room_name": "Pool Residence",
+                "description": "Pool Residence with space for up to 5 guests. Fictional inventory.",
+                "capacity": 5,
+                "amenities": [
+                  "wifi",
+                  "beach_access",
+                  "parking",
+                  "private_pool",
+                  "villa",
+                  "kitchenette"
+                ],
+                "quote": {
+                  "currency": "INR",
+                  "nights": 2,
+                  "nightly_minor": 2100000,
+                  "base_minor": 4200000,
+                  "add_ons": [],
+                  "tax_minor": 504000,
+                  "total_minor": 4704000,
+                  "fictional": true,
+                  "id": "9b05dc5e-b200-4a19-b03b-908b4df3f3cb",
+                  "expires_at": "2026-10-16T06:49:01.074747"
+                },
+                "preference_score": 0
+              }
+            ],
+            "latest_quote_id": "5e7d6532-5fd6-458c-b053-ae740f306510",
+            "negotiation_state": {},
+            "pending_confirmation": true,
+            "active_booking_hold_id": null,
+            "escalation_status": "none",
+            "last_tool_results": [
+              {
+                "tool_name": "check_availability",
+                "success": true
+              },
+              {
+                "tool_name": "calculate_price",
+                "success": true
+              },
+              {
+                "tool_name": "get_room_details",
+                "success": true
+              }
+            ],
+            "next_action": "execute_tools",
+            "state_version": 3,
+            "quote": {
+              "currency": "INR",
+              "nights": 3,
+              "nightly_minor": 1800000,
+              "base_minor": 5400000,
+              "add_ons": [
+                {
+                  "id": "67e7e33b-fa4d-5db5-8821-bdb29856b39e",
+                  "name": "Breakfast",
+                  "amount_minor": 585000
+                }
+              ],
+              "tax_minor": 718200,
+              "total_minor": 6703200,
+              "fictional": true,
+              "id": "5e7d6532-5fd6-458c-b053-ae740f306510",
+              "expires_at": "2026-10-16T06:49:15.736676"
+            },
+            "hold": null
+          }
+        }
+      ],
+      "session_id": "a71997f6-832c-489b-a3d1-f2e80d1df028"
+    }
+  ],
+  "limitation": "Small functional/concurrency probe, not a capacity benchmark or exhaustive language evaluation."
+}

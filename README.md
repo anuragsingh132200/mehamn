@@ -1,5 +1,7 @@
 # Mira · Mehman hotel receptionist
 
+Verified refactor: **98 PostgreSQL regression tests**, **15/15 live feature scenarios**, **10/10 live interpretation cases**, and **11 browser checks** passed. Production frontend build passed. See [REFACTOR_REPORT.md](REFACTOR_REPORT.md) for measured results and limits.
+
 A runnable Goa hotel receptionist with Next.js, FastAPI, LangGraph, OpenAI tool planning and grounded response generation, and PostgreSQL. All three properties, nine room types, inventory, tax, and negotiation policies are **fictional**. Holds are temporary inventory claims, not confirmed reservations. No payments.
 
 ## Start with Docker Compose
@@ -129,3 +131,32 @@ PLAYWRIGHT_MODULE=/tmp/mira-browser/node_modules/playwright/index.mjs \
 Set `CHROME_PATH` if Chrome is not at `/usr/bin/google-chrome`. This writes screenshots and a JSON result. The script computes future dates relative to the current day. The test token fallback is only for the isolated local implementation run and is not an application credential. `scripts/verify_runtime.py` can inspect existing PostgreSQL checkpoints and inventory invariants using `DATABASE_URL`.
 
 Probes consume real temporary inventory. Repeating the same workload can exhaust villas for its shared dates until holds expire. Set `MIRA_LOAD_OFFSET_DAYS=50` (or another future offset) for a fresh Locust contention window, or reset your disposable database. `reports/locust-final.json` captures final counters; periodic CSV snapshots can precede the last requests.
+
+### This workspace's verified local setup
+
+The current checkout already has a Python virtual environment and configured root `.env`. Its demo PostgreSQL instance listens on `127.0.0.1:55432`. The host's default Node is too old; a Node 22 runtime was installed locally for verification.
+
+```bash
+# Terminal one, repository root (stop an existing API first if port 8000 is occupied):
+backend/.venv/bin/python scripts/run_local.py --setup
+
+# Terminal two, repository root:
+export PATH=/tmp/mira-node/node_modules/node/bin:$PATH
+cd frontend
+npm run dev
+```
+
+Open http://localhost:3000; API docs are at http://localhost:8000/docs. Subsequent backend starts can omit `--setup`. To exercise cancellation, search, select, explicitly confirm a temporary hold, then say “Cancel my temporary hold” or use its cancellation button. Staff review uses `ADMIN_TOKEN` from your `.env`.
+
+The verification database and Node runtime are under `/tmp`; they are local development conveniences and may be removed by system cleanup. For a durable installation, install Node 22+ and PostgreSQL normally, create the database, and update `.env`, or use Compose. If the existing temporary database is stopped but its files remain, restart it with:
+
+```bash
+LD_LIBRARY_PATH=/tmp/mira-pg/root/usr/lib/x86_64-linux-gnu \
+  /tmp/mira-pg/root/usr/lib/postgresql/16/bin/pg_ctl \
+  -D /tmp/mira-pg/data -l /tmp/mira-pg/server.log \
+  -o '-h 127.0.0.1 -p 55432' start
+```
+
+For fresh dependency installation, install `uv`, then run `uv sync --project backend --frozen`. Avoid copying `.env.example` over your configured `.env`.
+
+Frontend development writes to `frontend/.next-dev`; production builds use `frontend/.next`. This keeps a production build from deleting assets used by an active development server. Restart a production server after rebuilding it. If the browser shows an unstyled page after switching servers, reload once with Ctrl+Shift+R.

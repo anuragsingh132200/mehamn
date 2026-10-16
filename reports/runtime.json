@@ -1,8 +1,8 @@
 {
   "properties": 3,
   "room_types": 9,
-  "graph_checkpoints": 6459,
-  "committed_holds": 21,
+  "graph_checkpoints": 7026,
+  "committed_holds": 25,
   "state_version_max": 11,
   "overbooked_room_nights": 0
 }

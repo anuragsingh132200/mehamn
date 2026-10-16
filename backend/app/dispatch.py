@@ -35,7 +35,9 @@ class Dispatcher:
 
     def resolve(self,reference):
         if reference.source=="recommendation":
-            cards=self.state.latest_recommendations if self.round>0 or not self.previous.latest_recommendations else self.previous.latest_recommendations
+            current=self.state.latest_recommendations or self.state.recommendation_references
+            prior=self.previous.latest_recommendations or self.previous.recommendation_references
+            cards=current if self.round>0 or not prior else prior
             index=reference.index-1
             if index>=len(cards):raise BusinessError("That option is not available. Please choose a current recommendation.")
             return deepcopy(cards[index])
@@ -68,6 +70,7 @@ class Dispatcher:
         if missing:raise BusinessError("To check inventory, please share your "+", ".join(missing)+".")
         result=self.tools.run("search_properties",s.SearchInput(requirements=req))
         self.state.latest_recommendations=result['recommendations']
+        self.state.recommendation_references=result['recommendations']
         self.state.pending_confirmation=False
         self.state.next_action="select_room" if result['recommendations'] else "adjust_requirements"
         return result
@@ -172,7 +175,7 @@ class Dispatcher:
         # or reuse an affirmation to a different pending clarification.
         previous=self.previous
         if not self.interpretation.explicit_confirmation or self.interpretation.ambiguities or self.quote_changed or not previous.pending_confirmation or previous.latest_quote_id!=self.state.latest_quote_id or not self.state.latest_quote_id:
-            raise BusinessError("Please select and review a current room quote before confirming its temporary hold.")
+            raise BusinessError("Please select and review a current room quote before confirming its temporary hold." if not previous.latest_quote_id else "A temporary hold requires separate confirmation of the latest displayed terms. No new hold was created.")
         hold=self.tools.run('create_booking_hold',s.HoldInput(session_id=self.state.session_id,quote_id=self.state.latest_quote_id,requirements=self.state.booking_requirements,confirmed=True,idempotency_key=self.key))
         self.state.active_booking_hold_id=hold['id'];self.state.hold=hold
         self.state.pending_confirmation=False;self.state.next_action='hold_active'

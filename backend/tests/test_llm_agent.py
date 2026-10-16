@@ -287,3 +287,29 @@ def test_authentication_failure_is_not_retried(guest,monkeypatch):
     response=guest[2]('Hello')
     assert response.status_code==503 and len(calls)==1
     assert 'credentials were rejected' in response.text
+
+def test_followup_repeated_patches_are_repaired_inside_model_budget(monkeypatch):
+    bad=AgentDecision.model_validate({'interpretation':{'primary_intent':'modify','patches':[{'field':'adults','operation':'SET','value':3}]}})
+    good=AgentDecision.model_validate({'interpretation':{'primary_intent':'modify'}})
+    attempts=[]
+    def request(self,schema,context,system,purpose):
+        attempts.append(context)
+        return (bad if len(attempts)==1 else good),{'input_tokens':10,'output_tokens':5}
+    monkeypatch.setattr(ModelGateway,'_request',request)
+    gateway=ModelGateway()
+    result=gateway.parse(AgentDecision,{'planning_round':1},PLANNER_PROMPT,'plan')
+    assert not result.interpretation.patches and gateway.calls==2
+    assert 'already applied' in str(attempts[1]['validation_feedback'])
+    assert gateway.input_tokens==20
+
+def test_prior_numbered_reference_survives_addon_quote_invalidation(guest,monkeypatch):
+    cards=search(guest,'private pool')['latest_recommendations']
+    reference={'source':'recommendation','index':2}
+    mock_plan(monkeypatch,execute({'tool':'select_room','arguments':{'reference':reference}},primary_intent='select',reference=reference,add_on_changes=[{'name':'breakfast','operation':'add'}]))
+    selected=guest[2]('Take the second villa and add paid breakfast.').json()['state']
+    assert not selected['latest_recommendations'] and len(selected['recommendation_references'])==3
+    mock_plan(monkeypatch,execute({'tool':'calculate_price','arguments':{'reference':reference}},primary_intent='modify',reference=reference,date_operations=[{'field':'check_out','operation':'shift_days','days':1}]))
+    state=guest[2]('Keep that second villa and extend one night.').json()['state']
+    assert state['selected_room_type_id']==cards[1]['room_type_id']
+    assert state['quote']['nights']==3 and state['quote']['add_ons']
+    assert state['latest_quote_id']!=selected['latest_quote_id']

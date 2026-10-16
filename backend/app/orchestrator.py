@@ -150,11 +150,12 @@ class Receptionist:
         return 'respond'
 
     def generate_response(self):
-        if self.error:
+        if self.error and (self.is_injection() or not self.tools.results):
             self.response=self.error;self.state.next_action='correct_or_refresh'
             return
         try:
-            self.response,question=generate_response(self.gateway,self.message,self.state,self.history,public_results(self.tools.results),self.dispatch.reviewed)
+            self.response,question=generate_response(self.gateway,self.message,self.state,self.history,public_results(self.tools.results),self.dispatch.reviewed,validation_notice=self.error)
+            if self.error and self.error not in self.response:self.response=self.error+" "+self.response
             self.state.pending_clarification=question or self.decision.interpretation.clarification_question
         except (ModelUnavailable,ResponseGroundingError):
             # Successful tools (especially holds) must not be repeated after a prose outage.

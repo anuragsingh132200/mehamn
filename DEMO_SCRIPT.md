@@ -1,6 +1,6 @@
 # Five-minute demo
 
-Preparation: start the Compose stack; configure an OpenAI key for AI mode or explicitly announce the limited offline mode. Keep the admin token available. Dates below are future as of October 16, 2026; advance them if needed. Start a fresh session so another demo hold does not occupy the single villa.
+Preparation: start the Compose stack; configure a valid OpenAI key; this app uses OpenAI for all conversations. Keep the admin token available. Dates below are future as of October 16, 2026; advance them if needed. Start a fresh session so another demo hold does not occupy the single villa.
 
 **0:00–0:45 · A real search.**
 
@@ -28,6 +28,8 @@ If using the default simple two-person Casa option instead, the two-night total 
 
 “Confirm hold.” The server validates the current quote, approved offer, and every inventory night while holding a PostgreSQL inventory lock. Show hold ID, discounted total, and expiry. Emphasize: temporary hold, no confirmed reservation, no payment. Repeat the same HTTP request/key in API docs to demonstrate identical idempotent response if desired.
 
-**4:40–5:00 · Evidence.**
+**4:40–5:00 · Cancellation and evidence.**
+
+“Cancel my temporary hold.” Show the cancelled status and released inventory; reload to show it persists.
 
 Show reports/evaluation.json, the PostgreSQL last-unit concurrency test, and the measured load-smoke report. Distinguish deterministic business-rule results from optional live-model accuracy and from unverified Docker execution. The UI shows structured state and traces only, never hidden chain of thought.

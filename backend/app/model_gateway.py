@@ -60,6 +60,10 @@ class ModelGateway:
                 self.input_tokens+=usage.get("input_tokens",0)
                 self.output_tokens+=usage.get("output_tokens",0)
                 output=schema.model_validate(parsed.model_dump() if hasattr(parsed,"model_dump") else parsed)
+                if schema is AgentDecision and context.get('planning_round',0)>0:
+                    i=output.interpretation
+                    if i.patches or i.date_operations or i.add_on_changes:
+                        raise ModelOutputInvalid("Follow-up planning must have patches=[], date_operations=[], add_on_changes=[]. The first plan's updates were already applied; propose only remaining tools or respond_to_guest.")
                 success=True
                 return output
             except (ValidationError,ModelOutputInvalid) as exc:

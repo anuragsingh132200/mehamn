@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "assetFailures": [],
+  "pageErrors": [],
+  "styles": {
+    "bodyFont": "Arial, Helvetica, sans-serif",
+    "bodyMargin": "0px",
+    "stylesheetCount": 2,
+    "headerDisplay": "flex",
+    "overflow": false
+  },
+  "mobileOverflow": false
+}
