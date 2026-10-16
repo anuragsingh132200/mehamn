@@ -32,11 +32,11 @@ Open <http://localhost:3000>. API documentation: <http://localhost:8000/docs>. R
 
 The one-shot `migrate` service applies Alembic migrations, seeds deterministic data, and initializes LangGraph's PostgreSQL checkpoint tables before API workers start. PostgreSQL data uses a named volume. `docker compose down` preserves data; `docker compose down -v` deletes it.
 
-`LLM_MODE=openai` is the only supported runtime mode. Mira uses configurable `gpt-4.1` for structured tool planning and natural responses. Missing credentials produce an explicit configuration error; there is no keyword parser or offline agent. Tests mock structured model outputs and exercise the real database services.
+`LLM_MODE=openai` is the only supported runtime mode. Mira uses configurable `gpt-4.1-mini` with `OPENAI_SERVICE_TIER=fast` for structured tool planning and natural responses. Missing credentials produce an explicit configuration error; there is no keyword parser or offline agent. Tests mock structured model outputs and exercise the real database services.
 
 ## Local development
 
-Requires Python 3.12+, Node 22+, uv, and a running PostgreSQL instance. Configure the root `.env` with `DATABASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-4.1`, and a separate `ADMIN_TOKEN`. Keep the existing `.env` when it is already configured.
+Requires Python 3.12+, Node 22+, uv, and a running PostgreSQL instance. Configure the root `.env` with `DATABASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-4.1-mini`, `OPENAI_SERVICE_TIER=fast`, and a separate `ADMIN_TOKEN`. Keep the existing `.env` when it is already configured.
 
 From the repository root:
 
@@ -55,7 +55,7 @@ npm ci --include=optional
 npm run dev
 ```
 
-Open http://localhost:3000. For production frontend verification use `npm run build`. The default model is `gpt-4.1`; it was used for the final live feature evaluation after the smaller model showed more tool-contract failures.
+Open http://localhost:3000. For production frontend verification use `npm run build`. The latency-oriented default is `gpt-4.1-mini` with fast processing. Historical live feature evaluations used `gpt-4.1` after the smaller model showed more tool-contract failures; those reports do not establish live accuracy or latency for the new default.
 
 The browser calls `http://localhost:8000` by default. For a different host, set `NEXT_PUBLIC_API_URL` **before building** the frontend and set backend `CORS_ORIGIN` to the browser origin. Compose binds only local ports. Publishing to the internet is outside this local case study; use TLS and real identity management before deployment.
 

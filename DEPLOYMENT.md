@@ -20,7 +20,9 @@ variables before deploying:
   precedence over `DATABASE_URL` so PostgreSQL startup timeouts are supported.
 - `OPENAI_API_KEY`: the server-side model credential.
 - `ADMIN_TOKEN`: a separate, long random staff credential.
-- `OPENAI_MODEL`: `gpt-4.1`, or another compatible model.
+- `OPENAI_MODEL`: `gpt-4.1-mini`, or another compatible model.
+- `OPENAI_SERVICE_TIER`: `fast` (default) for lower latency; use `default` for
+  standard processing. Existing environment values override application defaults.
 
 Use a separate database for preview environments. Local `.env` files and
 credentials are excluded from deployment uploads by `.vercelignore`.

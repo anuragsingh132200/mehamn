@@ -16,24 +16,64 @@ const inr=(v:number)=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'
 const label=(v:string)=>v.replaceAll('_',' ');
 const suggestions=['Plan a three-day Goa itinerary','A villa with a private pool','Something for the whole family'];
 
+function Composer({busy,onSend}:{busy:boolean;onSend:(text:string)=>Promise<boolean>}){
+ const [draft,setDraft]=useState('');
+ async function submit(){
+   const text=draft.trim();
+   if(!text||busy)return;
+   setDraft('');
+   if(!await onSend(text))setDraft(current=>current||text);
+ }
+ return <form onSubmit={e=>{e.preventDefault();void submit()}} className="mx-auto flex max-w-[720px] items-end gap-3 rounded-2xl border border-[#d9ded0] bg-[#fdfdfa] p-3 shadow-[0_3px_12px_#29462c05]"><textarea aria-label="Message Mira" value={draft} onChange={e=>setDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void submit()}}} placeholder="Tell Mira your plans…" rows={1} className="max-h-32 min-h-11 min-w-0 flex-1 resize-none bg-transparent px-2 py-3 text-base sm:text-sm placeholder:text-[#a0a294]"/><Button type="submit" size="icon" disabled={busy||!draft.trim()} aria-label="Send message"><ArrowUp size={18}/></Button></form>;
+}
+
 export default function Home(){
- const [session,setSession]=useState<Session|null>(null),[state,setState]=useState<State|null>(null),[messages,setMessages]=useState<Message[]>([]),[input,setInput]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[traces,setTraces]=useState<Trace[]>([]),[tab,setTab]=useState('overview'),[mode,setMode]=useState(''),[detailsOpen,setDetailsOpen]=useState(false),[manager,setManager]=useState(false),[adminToken,setAdminToken]=useState(''),[adminData,setAdminData]=useState<AdminData|null>(null),[flags,setFlags]=useState<{id:string;status:string}[]>([]),[adminError,setAdminError]=useState('');
+ const [session,setSession]=useState<Session|null>(null),[state,setState]=useState<State|null>(null),[messages,setMessages]=useState<Message[]>([]),[busy,setBusy]=useState(false),[error,setError]=useState(''),[traces,setTraces]=useState<Trace[]>([]),[tab,setTab]=useState('overview'),[mode,setMode]=useState(''),[detailsOpen,setDetailsOpen]=useState(false),[manager,setManager]=useState(false),[adminToken,setAdminToken]=useState(''),[adminData,setAdminData]=useState<AdminData|null>(null),[flags,setFlags]=useState<{id:string;status:string}[]>([]),[adminError,setAdminError]=useState(''),[activityError,setActivityError]=useState(''),[activityRevision,setActivityRevision]=useState(0);
  const conversation=useRef<HTMLDivElement>(null),detailsTrigger=useRef<HTMLButtonElement>(null),detailsClose=useRef<HTMLButtonElement>(null);
+ const activeSession=useRef<Session|null>(null),refreshRevision=useRef(0);
  const bottom=useRef<HTMLDivElement>(null),pending=useRef<{message:string;key:string}|null>(null),inFlight=useRef(false);
  async function api(path:string,opts:RequestInit={},s:Session|null=session){
    const res=await fetch(API+path,{...opts,headers:{'Content-Type':'application/json',...(s?{Authorization:`Bearer ${s.token}`} : {}),...opts.headers}});
    const data=await res.json(); if(!res.ok)throw new Error(typeof data.error==='string'?data.error:JSON.stringify(data.detail||'The request could not be completed.'));return data;
  }
- async function refresh(s:Session){
-   const [data,t,f]=await Promise.all([api(`/api/sessions/${s.session_id}`,{},s),api(`/api/sessions/${s.session_id}/traces`,{},s),api(`/api/sessions/${s.session_id}/flags`,{},s)]);
-   setState(data.state);setMessages(data.messages);setMode(data.llm_mode);setTraces(t);setFlags(f);
+ async function refresh(s:Session,signal?:AbortSignal){
+   const revision=++refreshRevision.current;
+   const data=await api(`/api/sessions/${s.session_id}`,{signal},s);
+   if(signal?.aborted||revision!==refreshRevision.current||activeSession.current?.session_id!==s.session_id)return;
+   setState(data.state);setMessages(data.messages);setMode(data.llm_mode);setActivityRevision(value=>value+1);
  }
  async function newSession(){
    if(inFlight.current)return;
-   setError('');setBusy(true);inFlight.current=true;
-   try{const s=await api('/api/sessions',{method:'POST'},null);localStorage.setItem('mira-session',JSON.stringify(s));setSession(s);setState(null);setMessages([]);setTraces([]);setFlags([]);pending.current=null;await refresh(s);}catch(e){setError((e as Error).message)}finally{setBusy(false);inFlight.current=false}
+   setError('');setBusy(true);inFlight.current=true;++refreshRevision.current;
+   try{const s=await api('/api/sessions',{method:'POST'},null);localStorage.setItem('mira-session',JSON.stringify(s));activeSession.current=s;setSession(s);setState(null);setMessages([]);setTraces([]);setFlags([]);pending.current=null;await refresh(s);}catch(e){setError((e as Error).message)}finally{setBusy(false);inFlight.current=false}
  }
- useEffect(()=>{let disposed=false;const saved=localStorage.getItem('mira-session');if(saved){try{const s=JSON.parse(saved);setSession(s);refresh(s).catch(e=>{if(!disposed)setError(e.message)});}catch{localStorage.removeItem('mira-session')}}return()=>{disposed=true};},[]); // eslint-disable-line react-hooks/exhaustive-deps
+ useEffect(()=>{
+   const controller=new AbortController();
+   try{
+     const saved=localStorage.getItem('mira-session');
+     if(saved){
+       const s=JSON.parse(saved) as Session;
+       if(!s.session_id||!s.token)throw new Error('Invalid saved session');
+       activeSession.current=s;setSession(s);setBusy(true);inFlight.current=true;
+       refresh(s,controller.signal).catch(e=>{if(!controller.signal.aborted)setError(e.message)}).finally(()=>{if(!controller.signal.aborted){setBusy(false);inFlight.current=false}});
+     }
+   }catch{localStorage.removeItem('mira-session')}
+   return()=>{controller.abort();++refreshRevision.current};
+ },[]); // eslint-disable-line react-hooks/exhaustive-deps
+ // Diagnostic reads never delay a reply or replace authoritative chat state.
+ useEffect(()=>{
+   setActivityError('');
+   if(!session)return;
+   const controller=new AbortController();
+   const load=async()=>{
+     const jobs=[api(`/api/sessions/${session.session_id}/flags`,{signal:controller.signal},session).then(data=>{if(!controller.signal.aborted)setFlags(data)})];
+     if(tab==='activity')jobs.push(api(`/api/sessions/${session.session_id}/traces`,{signal:controller.signal},session).then(data=>{if(!controller.signal.aborted)setTraces(data)}));
+     const results=await Promise.allSettled(jobs);
+     if(!controller.signal.aborted&&results.some(result=>result.status==='rejected'))setActivityError('Stay activity could not be refreshed. Your conversation is saved.');
+   };
+   void load();
+   return()=>controller.abort();
+ },[session,state?.state_version,tab,activityRevision]); // eslint-disable-line react-hooks/exhaustive-deps
  useEffect(()=>{const element=conversation.current;if(element)element.scrollTo({top:element.scrollHeight,behavior:'smooth'});},[messages,busy]);
  useEffect(()=>{
    const viewport=window.visualViewport;
@@ -57,20 +97,23 @@ export default function Home(){
    return()=>document.removeEventListener('keydown',escape);
  },[detailsOpen]);
  function closeDetails(){setDetailsOpen(false);detailsTrigger.current?.focus();}
- async function send(text:string){
-   if(!text.trim()||inFlight.current)return;
-   inFlight.current=true;setBusy(true);setError('');
+ async function send(text:string):Promise<boolean>{
+   text=text.trim();
+   if(!text||inFlight.current)return false;
+   inFlight.current=true;setBusy(true);setError('');++refreshRevision.current;
+   const optimisticId=crypto.randomUUID();
+   setMessages(old=>[...old,{id:optimisticId,role:'user',content:text}]);
    let s=session;
    try{
-     if(!s){s=await api('/api/sessions',{method:'POST'},null);setSession(s);localStorage.setItem('mira-session',JSON.stringify(s));}
+     if(!s){s=await api('/api/sessions',{method:'POST'},null);activeSession.current=s;setSession(s);localStorage.setItem('mira-session',JSON.stringify(s));}
      if(!s)throw new Error('Could not create a session.');
      const request=pending.current?.message===text?pending.current:{message:text,key:crypto.randomUUID()};pending.current=request;
      const result=await api('/api/chat',{method:'POST',body:JSON.stringify({session_id:s.session_id,message:text,idempotency_key:request.key})},s);
-     setState(result.state);setMessages(old=>[...old,{role:'user',content:text},{role:'assistant',content:result.response}]);setInput('');pending.current=null;
-     await refresh(s);
-   }catch(e){setError((e as Error).message);setInput(text);}finally{setBusy(false);inFlight.current=false;}
+     setState(result.state);setMode('openai');setMessages(old=>[...old,{id:crypto.randomUUID(),role:'assistant',content:result.response}]);pending.current=null;
+     return true;
+   }catch(e){setMessages(old=>old.filter(message=>message.id!==optimisticId));setError((e as Error).message);return false;}finally{setBusy(false);inFlight.current=false;}
  }
- async function adminLoad(){setAdminError('');try{setAdminData(await api('/api/admin/escalations',{headers:{'X-Admin-Token':adminToken}},null));if(session)await refresh(session);}catch(e){setAdminError((e as Error).message)}}
+ async function adminLoad(){setAdminError('');try{setAdminData(await api('/api/admin/escalations',{headers:{'X-Admin-Token':adminToken}},null));if(session&&!inFlight.current)await refresh(session);}catch(e){setAdminError((e as Error).message)}}
  async function adminAction(path:string){setAdminError('');try{await api(path,{method:'POST',headers:{'X-Admin-Token':adminToken}},null);await adminLoad();}catch(e){setAdminError((e as Error).message)}}
  const req=state?.booking_requirements||{};
  return <div className="flex h-[var(--app-height,100dvh)] flex-col overflow-hidden">
@@ -97,7 +140,7 @@ export default function Home(){
     {busy&&<div className="flex items-center gap-3 text-xs text-[#818c76]"><Loader2 size={15} className="animate-spin"/> Mira is checking the details…</div>}
     <div ref={bottom}/></div>
    </div>
-   <div className="composer shrink-0 border-t border-[#e5e5dc] bg-[#f7f6f2] px-3 pt-3 sm:px-5 lg:border-0 lg:px-10">{error&&<div role="alert" className="mx-auto mb-3 max-w-[720px] rounded-xl border border-red-200 bg-red-50 p-3 text-xs leading-5 text-red-800">{error} {pending.current&&<button className="ml-2 underline" disabled={busy} onClick={()=>send(pending.current!.message)}>Retry message</button>}</div>}<form onSubmit={e=>{e.preventDefault();send(input)}} className="mx-auto flex max-w-[720px] items-end gap-3 rounded-2xl border border-[#d9ded0] bg-[#fdfdfa] p-3 shadow-[0_3px_12px_#29462c05]"><textarea aria-label="Message Mira" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(input)}}} placeholder="Tell Mira your plans…" rows={1} className="max-h-32 min-h-11 min-w-0 flex-1 resize-none bg-transparent px-2 py-3 text-base sm:text-sm placeholder:text-[#a0a294]" disabled={busy}/><Button type="submit" size="icon" disabled={busy||!input.trim()} aria-label="Send message"><ArrowUp size={18}/></Button></form><p className="mt-2 text-center text-[10px] leading-4 sm:mt-3 sm:text-[9px] text-[#a2a596]">A fictional hotel collection for a real conversation. Prices in INR. {mode==='openai'?'AI conversations · Verified hotel records.':'Powered by verified hotel records.'}</p></div>
+   <div className="composer shrink-0 border-t border-[#e5e5dc] bg-[#f7f6f2] px-3 pt-3 sm:px-5 lg:border-0 lg:px-10">{error&&<div role="alert" className="mx-auto mb-3 max-w-[720px] rounded-xl border border-red-200 bg-red-50 p-3 text-xs leading-5 text-red-800">{error} {pending.current&&<button className="ml-2 underline" disabled={busy} onClick={()=>send(pending.current!.message)}>Retry message</button>}</div>}<Composer busy={busy} onSend={send}/><p className="mt-2 text-center text-[10px] leading-4 sm:mt-3 sm:text-[9px] text-[#a2a596]">A fictional hotel collection for a real conversation. Prices in INR. {mode==='openai'?'AI conversations · Verified hotel records.':'Powered by verified hotel records.'}</p></div>
  </main>
  {detailsOpen&&<button tabIndex={-1} aria-label="Close stay details overlay" className="fixed inset-0 z-30 bg-[#15291e66] lg:hidden" onClick={closeDetails}/>}
  <aside id="stay-details" role={detailsOpen?'dialog':undefined} aria-modal={detailsOpen||undefined} aria-label="Stay details" className={`scrollbar min-h-0 min-w-0 overflow-y-auto overscroll-contain border-[#e2e5da] bg-[#eff1e9] px-5 py-5 lg:static lg:z-auto lg:block lg:rounded-none lg:border-l lg:px-6 lg:py-7 ${detailsOpen?'fixed inset-x-0 bottom-0 top-16 z-40 rounded-t-3xl':'hidden'}`}>
@@ -112,7 +155,8 @@ export default function Home(){
    <section className="mt-7 rounded-xl border border-[#dbe1d2] bg-[#f7f8f2] p-4"><div className="flex items-center gap-2 text-[11px] font-semibold"><Compass size={14} className="text-[#819071]"/> The next little step</div><p className="mt-2 text-xs leading-5 text-[#849078]">{state?label(state.next_action):'Tell Mira what you have in mind. A destination, a date, a daydream.'}</p></section>
    <section className="mt-7"><h3 className="eyebrow mb-3">RECEPTION DESK</h3>{[['Intent',label(state?.active_intent||'Getting acquainted')],['Room options',String(state?.latest_recommendations.length||'—')],['Negotiation',label(state?.negotiation_state.status||'No active offer')],['Staff review',flags.length?`${flags.filter(f=>f.status==='open').length} open requests`:'None needed']].map(([k,v])=><div key={k} className="mb-3 flex justify-between text-[10px]"><span className="text-[#8b947e]">{k}</span><span className="capitalize text-[#657959]">{v}</span></div>)}</section>
    {state&&<details className="mt-5 text-[10px] text-[#89957c]"><summary className="flex items-center gap-1"><Code2 size={12}/> Structured state <ChevronDown size={11}/></summary><pre className="text-wrap mt-3 max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-[#e7ecdf] p-3 text-[9px]">{JSON.stringify(state,null,2)}</pre></details>}
-  </>:<section className="mt-5"><div className="mb-4 flex items-center justify-between"><span className="eyebrow">VERIFIED EXECUTION</span><button aria-label="Refresh activity" className="text-[10px] underline" disabled={!session||busy} onClick={()=>session&&refresh(session).catch(e=>setError(e.message))}>Refresh</button></div>{!traces.length?<p className="text-xs leading-6 text-[#89947c]">When Mira checks inventory, calculates prices, or arranges a hold, you’ll see the real tool calls here.</p>:traces.map(t=><details key={t.id} className="mb-2 rounded-xl border border-[#dce2d2] bg-[#f8f9f3] p-3"><summary className="flex items-center justify-between gap-2 text-[10px]"><span className="flex items-center gap-2">{t.success?<Check size={12} className="text-[#749557]"/>:<X size={12} className="text-red-600"/>}{t.tool_name}</span><span className="text-[#98a18d]">{t.duration_ms} ms</span></summary><pre className="text-wrap mt-3 overflow-auto whitespace-pre-wrap text-[9px] leading-5 text-[#849078]">{JSON.stringify({arguments:t.arguments,result:t.summary,request_id:t.correlation_id},null,2)}</pre></details>)}{traces.length>=30&&<p className="text-[10px] text-stone-500">Showing latest 30 tool calls.</p>}</section>}
+  </>:<section className="mt-5"><div className="mb-4 flex items-center justify-between"><span className="eyebrow">VERIFIED EXECUTION</span><button aria-label="Refresh activity" className="text-[10px] underline" disabled={!session||busy} onClick={()=>setActivityRevision(value=>value+1)}>Refresh</button></div>{!traces.length?<p className="text-xs leading-6 text-[#89947c]">When Mira checks inventory, calculates prices, or arranges a hold, you’ll see the real tool calls here.</p>:traces.map(t=><details key={t.id} className="mb-2 rounded-xl border border-[#dce2d2] bg-[#f8f9f3] p-3"><summary className="flex items-center justify-between gap-2 text-[10px]"><span className="flex items-center gap-2">{t.success?<Check size={12} className="text-[#749557]"/>:<X size={12} className="text-red-600"/>}{t.tool_name}</span><span className="text-[#98a18d]">{t.duration_ms} ms</span></summary><pre className="text-wrap mt-3 overflow-auto whitespace-pre-wrap text-[9px] leading-5 text-[#849078]">{JSON.stringify({arguments:t.arguments,result:t.summary,request_id:t.correlation_id},null,2)}</pre></details>)}{traces.length>=30&&<p className="text-[10px] text-stone-500">Showing latest 30 tool calls.</p>}</section>}
+  {activityError&&<p role="status" className="mt-4 text-xs text-amber-800">{activityError}</p>}
   {error&&<section aria-label="Latest error" className="mt-5 rounded-xl border border-red-200 bg-red-50 p-3 text-xs leading-5 text-red-800"><h3 className="mb-1 font-semibold">Latest error</h3>{error}</section>}
   <div className="mt-10 border-t border-[#dbe1d2] pt-5"><div className="flex gap-2 text-[10px] text-[#819171]"><ShieldCheck size={14}/> Grounded in hotel records</div><p className="mt-2 text-[10px] leading-5 text-[#9aa28d]">Mira checks before making a promise. Unknown details stay unknown. Human decisions stay human.</p>{session&&<div className="mt-3 text-[8px] text-[#a5ad98]">SESSION {session.session_id.slice(0,8)} · PERSISTED</div>}</div>
  </aside>

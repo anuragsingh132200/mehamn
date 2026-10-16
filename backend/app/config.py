@@ -20,7 +20,8 @@ class Settings(BaseSettings):
         return value
 
     openai_api_key: str = ""
-    openai_model: str = "gpt-4.1"
+    openai_model: str = "gpt-4.1-mini"
+    openai_service_tier: Literal["auto", "default", "flex", "priority", "fast"] = "fast"
     llm_mode: Literal["openai"] = "openai"
     recent_message_window: int = Field(12, ge=2, le=30)
     context_message_chars: int = Field(2000, ge=200, le=4000)

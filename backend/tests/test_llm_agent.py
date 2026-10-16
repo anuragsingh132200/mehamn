@@ -224,7 +224,11 @@ def test_private_policy_fields_not_sent_to_response_model(guest,monkeypatch):
     response_context=[c for purpose,c in calls if purpose=='response'][0]
     assert 'discount_bps' not in json.dumps(response_context) and 'policy_version' not in json.dumps(response_context)
 
-def test_real_sdk_parses_native_function_tool_with_http_mock(monkeypatch):
+@pytest.mark.parametrize('service_tier', ['fast', 'default'])
+def test_real_sdk_parses_native_function_tool_with_http_mock(monkeypatch,service_tier):
+    from app.config import settings
+    monkeypatch.setattr(settings,'openai_model','gpt-4.1-mini')
+    monkeypatch.setattr(settings,'openai_service_tier',service_tier)
     from openai import OpenAI as RealOpenAI
     plan=AgentDecision.model_validate({'interpretation':{'primary_intent':'greeting'}})
     sent=[]
@@ -238,6 +242,8 @@ def test_real_sdk_parses_native_function_tool_with_http_mock(monkeypatch):
     assert sent[0]['tools'][0]['strict'] is True
     assert sent[0]['tools'][0]['parameters']['additionalProperties'] is False
     assert sent[0]['parallel_tool_calls'] is False
+    assert sent[0]['model']=='gpt-4.1-mini'
+    assert sent[0]['service_tier']==service_tier
 
 def test_destination_change_cannot_reselect_old_property(guest,monkeypatch):
     select_first(guest)
@@ -313,3 +319,21 @@ def test_prior_numbered_reference_survives_addon_quote_invalidation(guest,monkey
     assert state['selected_room_type_id']==cards[1]['room_type_id']
     assert state['quote']['nights']==3 and state['quote']['add_ons']
     assert state['latest_quote_id']!=selected['latest_quote_id']
+
+
+def test_real_sdk_sends_fast_tier_for_grounded_responses(monkeypatch):
+    from openai import OpenAI as RealOpenAI
+    from app.config import settings
+    from app.prompts import RESPONSE_PROMPT
+    monkeypatch.setattr(settings,'openai_model','gpt-4.1-mini')
+    monkeypatch.setattr(settings,'openai_service_tier','fast')
+    reply=GroundedResponse(parts=[ResponsePart(kind='text',text='Welcome to Goa.')])
+    sent=[]
+    def handler(request):
+        sent.append(json.loads(request.content))
+        return httpx.Response(200,json={'id':'resp_test','object':'response','created_at':1792130400,'status':'completed','model':'gpt-4.1-mini','output':[{'type':'message','id':'msg_test','role':'assistant','status':'completed','content':[{'type':'output_text','text':reply.model_dump_json(),'annotations':[]}]}],'usage':{'input_tokens':10,'output_tokens':5,'total_tokens':15}})
+    monkeypatch.setattr('app.model_gateway.OpenAI',lambda **kw:RealOpenAI(api_key='test-only',http_client=httpx.Client(transport=httpx.MockTransport(handler)),max_retries=0))
+    parsed,_=REAL_REQUEST(ModelGateway(),GroundedResponse,{},RESPONSE_PROMPT,'response')
+    assert parsed==reply
+    assert sent[0]['model']=='gpt-4.1-mini'
+    assert sent[0]['service_tier']=='fast'

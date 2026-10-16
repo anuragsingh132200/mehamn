@@ -58,7 +58,11 @@ class Receptionist:
         return node
 
     def invoke(self):
-        self.graph.invoke({'state':self.state.model_dump(mode='json')},{'configurable':{'thread_id':self.state.session_id},'recursion_limit':30})
+        # The API commits an entire turn atomically and always rebuilds from the
+        # conversation row. Intermediate nodes cannot be resumed independently
+        # of that transaction, so persist only the final graph checkpoint.
+        options={'durability':'exit'} if self.graph.checkpointer is not None else {}
+        self.graph.invoke({'state':self.state.model_dump(mode='json')},{'configurable':{'thread_id':self.state.session_id},'recursion_limit':30},**options)
         return self.response,self.state
 
     def receive_message(self):

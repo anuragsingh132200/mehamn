@@ -25,7 +25,7 @@ class ModelGateway:
     def _request(self, schema, context, system, purpose):
         timeout=max(1,min(settings.model_timeout_seconds,self.deadline-time.monotonic()))
         with OpenAI(api_key=settings.openai_api_key,timeout=timeout,max_retries=0) as client:
-            kwargs={"model":settings.openai_model,"input":[{"role":"system","content":system},{"role":"user","content":json.dumps(context,ensure_ascii=False,default=str)}],"max_output_tokens":settings.model_max_output_tokens,"store":False}
+            kwargs={"model":settings.openai_model,"service_tier":settings.openai_service_tier,"input":[{"role":"system","content":system},{"role":"user","content":json.dumps(context,ensure_ascii=False,default=str)}],"max_output_tokens":settings.model_max_output_tokens,"store":False}
             if schema is AgentDecision:
                 # The native function submits a typed, ordered batch. Only the server
                 # executes its allowlisted constituent tools after validation.

@@ -11,7 +11,7 @@ try {
  await page.goto('http://localhost:3000',{waitUntil:'networkidle'});
  await page.screenshot({path:'reports/welcome-desktop.png',fullPage:true});
  checks.push('production_page_loaded');
- async function send(text){await page.getByRole('textbox',{name:'Message Mira'}).fill(text);await page.getByRole('button',{name:'Send message',exact:true}).click();await page.getByRole('textbox',{name:'Message Mira'}).waitFor({state:'visible'});await page.waitForFunction(()=>!document.querySelector('textarea[aria-label="Message Mira"]').disabled,{timeout:60000});}
+ async function send(text){await page.getByRole('textbox',{name:'Message Mira'}).fill(text);await page.getByRole('button',{name:'Send message',exact:true}).click();await page.getByRole('textbox',{name:'Message Mira'}).waitFor({state:'visible'});await page.getByText('Mira is checking the details…',{exact:true}).waitFor({state:'hidden',timeout:60000});}
  const arrival=new Date(Date.now()+120*86400000).toISOString().slice(0,10);
  const departure=new Date(Date.now()+122*86400000).toISOString().slice(0,10);
  await send(`Goa ${arrival} to ${departure} for 2 adults`);
