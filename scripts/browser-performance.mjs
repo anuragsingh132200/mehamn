@@ -1,12 +1,21 @@
 // Production UI regression checks with delayed/mock API responses; no model calls.
+// Start a production frontend on port 3001, then run with PLAYWRIGHT_MODULE if needed.
 import assert from 'node:assert/strict';
-const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'/tmp/mira-browser/node_modules/playwright/index.mjs');
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];
 page.on('pageerror',error=>errors.push(error.message));
 let version=0,failChat=false,failFlags=false,chatRequests=[],sessionReads=0,traceReads=0;
 let releaseChat;
+async function completeChat(){
+ const deadline=Date.now()+10000;
+ while(!releaseChat){
+  assert.ok(Date.now()<deadline,'Chat request did not arrive');
+  await new Promise(resolve=>setTimeout(resolve,10));
+ }
+ releaseChat();releaseChat=undefined;
+}
 const state=()=>({session_id:'performance-session',state_version:version,booking_requirements:{},active_intent:'greeting',latest_recommendations:[],latest_quote_id:null,quote:null,negotiation_state:{},pending_confirmation:false,hold:null,next_action:'respond_to_guest',escalation_status:'none'});
 const respond=(route,data,status=200)=>route.fulfill({status,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*'},body:JSON.stringify(data)});
 await page.route('http://localhost:8000/**',async route=>{
@@ -32,8 +41,7 @@ try{
  assert.equal(await input.isEnabled(),true);
  await input.fill('Draft while waiting');
  await page.waitForFunction(()=>document.body.textContent.includes('Mira is checking'));
- while(!releaseChat)await new Promise(resolve=>setTimeout(resolve,10));
- failFlags=true;releaseChat();releaseChat=undefined;
+ failFlags=true;await completeChat();
  await page.getByText('Reply 1',{exact:true}).waitFor();
  await page.waitForFunction(()=>!document.body.textContent.includes('Mira is checking'));
  assert.equal(await input.inputValue(),'Draft while waiting');
@@ -45,15 +53,13 @@ try{
  await page.waitForFunction(()=>document.body.textContent.includes('Stay activity could not be refreshed'));
  assert.ok(traceReads>0);
  failChat=true;await send.click();
- while(!releaseChat)await new Promise(resolve=>setTimeout(resolve,10));
- releaseChat();releaseChat=undefined;
+ await completeChat();
  await page.getByRole('button',{name:'Retry message'}).waitFor();
  assert.equal(await input.inputValue(),'Draft while waiting');
  assert.equal(await page.locator('[aria-live="polite"]').getByText('Draft while waiting',{exact:true}).count(),0,'failed optimistic message is removed');
  const retryKey=chatRequests.at(-1).idempotency_key;
  failChat=false;await page.getByRole('button',{name:'Retry message'}).click();
- while(!releaseChat)await new Promise(resolve=>setTimeout(resolve,10));
- releaseChat();releaseChat=undefined;
+ await completeChat();
  await page.getByText('Reply 2',{exact:true}).waitFor();
  assert.equal(chatRequests.at(-1).idempotency_key,retryKey);
  assert.equal(await page.locator('[aria-live="polite"]').getByText('Draft while waiting',{exact:true}).count(),1);
