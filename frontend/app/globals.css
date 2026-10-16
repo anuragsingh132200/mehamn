@@ -1,2 +1,6 @@
 @import "tailwindcss";
+html,body{height:100%;overscroll-behavior:none}
+.composer{padding-bottom:max(.75rem,env(safe-area-inset-bottom))}
+@media (min-width:640px){.composer{padding-bottom:1.25rem}}
+@media (max-width:1023px){button,summary{min-height:44px}button{min-width:44px}#stay-details{padding-bottom:max(1.5rem,env(safe-area-inset-bottom))}#stay-details dd{overflow-wrap:anywhere}}
 :root{--background:#f7f6f2;--foreground:#20362e;--radius:.75rem}*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font-family:Arial,Helvetica,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:wait}::selection{background:#d5e6cf}.serif{font-family:Georgia,'Times New Roman',serif}.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8b9188}.scrollbar::-webkit-scrollbar{width:4px}.scrollbar::-webkit-scrollbar-thumb{background:#dddcd3;border-radius:5px}.fade-in{animation:rise .35s ease-out}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}details summary{cursor:pointer}input:focus,textarea:focus{outline:none}.text-wrap{overflow-wrap:anywhere}
