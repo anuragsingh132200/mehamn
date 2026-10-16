@@ -16,6 +16,8 @@ variables before deploying:
 - `DATABASE_URL`: the provider's PostgreSQL URL with TLS enabled, such as
   `postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require`. The application
   selects the installed psycopg driver automatically.
+- `DATABASE_URL_UNPOOLED`: when provided by Neon, this direct connection takes
+  precedence over `DATABASE_URL` so PostgreSQL startup timeouts are supported.
 - `OPENAI_API_KEY`: the server-side model credential.
 - `ADMIN_TOKEN`: a separate, long random staff credential.
 - `OPENAI_MODEL`: `gpt-4.1`, or another compatible model.

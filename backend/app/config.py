@@ -1,10 +1,14 @@
 from typing import Literal
-from pydantic import Field, field_validator
+from pydantic import AliasChoices, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-    database_url: str = "postgresql+psycopg://mira:mira@localhost:5432/mira"
+    # Direct connections support the app's PostgreSQL startup timeouts.
+    database_url: str = Field(
+        "postgresql+psycopg://mira:mira@localhost:5432/mira",
+        validation_alias=AliasChoices("DATABASE_URL_UNPOOLED", "DATABASE_URL", "database_url"),
+    )
 
     @field_validator("database_url", mode="before")
     @classmethod
