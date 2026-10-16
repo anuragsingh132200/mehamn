@@ -1,0 +1,537 @@
+{
+  "mode": "live_openai_http",
+  "checks": [
+    {
+      "name": "grounded reply without fallback",
+      "passed": true
+    },
+    {
+      "name": "duration, region and pace",
+      "passed": true
+    },
+    {
+      "name": "interests and family suitability",
+      "passed": true
+    },
+    {
+      "name": "no booking mutation",
+      "passed": true
+    },
+    {
+      "name": "grounded reply without fallback",
+      "passed": true
+    },
+    {
+      "name": "revision preserves preferences",
+      "passed": true
+    },
+    {
+      "name": "saved across session reload",
+      "passed": true
+    },
+    {
+      "name": "grounded reply without fallback",
+      "passed": true
+    },
+    {
+      "name": "new interests replace previous interests",
+      "passed": true
+    }
+  ],
+  "turns": [
+    {
+      "message": "Plan a three-day relaxed South Goa itinerary for a family, focused on beaches and culture. Exclude adventure. This is only an itinerary, no hotel booking.",
+      "seconds": 8.42,
+      "response": "Here's a suggested plan for a relaxed family trip to South Goa, focusing on beaches and culture and suitable for all ages. Fictional South Goa itinerary, relaxed pace.\nDay 1: morning: Moonflower Beach Walk (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; evening: Banyan Courtyard Gallery (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.\nDay 2: morning: Lotus Cove Picnic (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; evening: Marigold Heritage Trail (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.\nDay 3: morning: Coral Sand Sunset (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; evening: Clay Lantern Workshop (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.\nFictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked. Would you like to adjust the activities or add any other interests to your plan?",
+      "state": {
+        "session_id": "e1fd3698-118b-4005-9d33-9e624064c09a",
+        "messages": [],
+        "booking_requirements": {
+          "destination": null,
+          "check_in": null,
+          "check_out": null,
+          "adults": null,
+          "children": 2,
+          "child_ages": [],
+          "budget_amount": null,
+          "budget_basis": "night",
+          "required_amenities": [],
+          "preferred_amenities": [],
+          "room_preferences": [],
+          "special_requests": [],
+          "add_on_ids": []
+        },
+        "itinerary_preferences": {
+          "days": 3,
+          "interests": [
+            "beach",
+            "culture"
+          ],
+          "avoid": [
+            "adventure"
+          ],
+          "pace": "relaxed",
+          "region": "south_goa",
+          "family_friendly": true
+        },
+        "itinerary": {
+          "fictional": true,
+          "stale": false,
+          "region": "south_goa",
+          "pace": "relaxed",
+          "preferences": {
+            "days": 3,
+            "interests": [
+              "beach",
+              "culture"
+            ],
+            "avoid": [
+              "adventure"
+            ],
+            "pace": "relaxed",
+            "region": "south_goa",
+            "family_friendly": true
+          },
+          "days": [
+            {
+              "day": 1,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_01",
+                    "name": "Moonflower Beach Walk (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "evening",
+                  "activity": {
+                    "id": "south_goa_04",
+                    "name": "Banyan Courtyard Gallery (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": null
+            },
+            {
+              "day": 2,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_02",
+                    "name": "Lotus Cove Picnic (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "evening",
+                  "activity": {
+                    "id": "south_goa_05",
+                    "name": "Marigold Heritage Trail (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": null
+            },
+            {
+              "day": 3,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_03",
+                    "name": "Coral Sand Sunset (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "evening",
+                  "activity": {
+                    "id": "south_goa_06",
+                    "name": "Clay Lantern Workshop (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": null
+            }
+          ],
+          "disclaimer": "Fictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked."
+        },
+        "active_intent": "itinerary",
+        "secondary_intents": [],
+        "pending_clarification": "Would you like to adjust the activities or add any other interests to your plan?",
+        "model_usage": {
+          "calls": 2,
+          "input_tokens": 10901,
+          "output_tokens": 250,
+          "model": "gpt-4.1",
+          "prompt_version": "mira-receptionist-2.3"
+        },
+        "response_degraded": false,
+        "selected_property_id": null,
+        "selected_room_type_id": null,
+        "latest_recommendations": [],
+        "recommendation_references": [],
+        "latest_quote_id": null,
+        "negotiation_state": {},
+        "pending_confirmation": false,
+        "active_booking_hold_id": null,
+        "escalation_status": "none",
+        "last_tool_results": [
+          {
+            "tool_name": "plan_itinerary",
+            "success": true
+          }
+        ],
+        "next_action": "review_itinerary",
+        "state_version": 1,
+        "quote": null,
+        "hold": null
+      }
+    },
+    {
+      "message": "Make that itinerary busy instead. Keep the same area, interests and adventure exclusion.",
+      "seconds": 5.73,
+      "response": "Here is your updated family itinerary with a busier schedule in South Goa, focused on beaches and culture, excluding adventure activities. Fictional South Goa itinerary, busy pace.\nDay 1: morning: Moonflower Beach Walk (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; late morning: Banyan Courtyard Gallery (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.; afternoon: Lotus Cove Picnic (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; evening: Marigold Heritage Trail (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.\nDay 2: morning: Coral Sand Sunset (demo) \u2014 Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.; late morning: Clay Lantern Workshop (demo) \u2014 Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service. The matching demo catalog is exhausted; remaining time is left free.\nDay 3:  The matching demo catalog is exhausted; remaining time is left free.\nFictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked. Would you like to make any further changes to your itinerary or add other interests?",
+      "state": {
+        "session_id": "e1fd3698-118b-4005-9d33-9e624064c09a",
+        "messages": [],
+        "booking_requirements": {
+          "destination": null,
+          "check_in": null,
+          "check_out": null,
+          "adults": null,
+          "children": 2,
+          "child_ages": [],
+          "budget_amount": null,
+          "budget_basis": "night",
+          "required_amenities": [],
+          "preferred_amenities": [],
+          "room_preferences": [],
+          "special_requests": [],
+          "add_on_ids": []
+        },
+        "itinerary_preferences": {
+          "days": 3,
+          "interests": [
+            "beach",
+            "culture"
+          ],
+          "avoid": [
+            "adventure"
+          ],
+          "pace": "busy",
+          "region": "south_goa",
+          "family_friendly": true
+        },
+        "itinerary": {
+          "fictional": true,
+          "stale": false,
+          "region": "south_goa",
+          "pace": "busy",
+          "preferences": {
+            "days": 3,
+            "interests": [
+              "beach",
+              "culture"
+            ],
+            "avoid": [
+              "adventure"
+            ],
+            "pace": "busy",
+            "region": "south_goa",
+            "family_friendly": true
+          },
+          "days": [
+            {
+              "day": 1,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_01",
+                    "name": "Moonflower Beach Walk (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "late_morning",
+                  "activity": {
+                    "id": "south_goa_04",
+                    "name": "Banyan Courtyard Gallery (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "afternoon",
+                  "activity": {
+                    "id": "south_goa_02",
+                    "name": "Lotus Cove Picnic (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "evening",
+                  "activity": {
+                    "id": "south_goa_05",
+                    "name": "Marigold Heritage Trail (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": null
+            },
+            {
+              "day": 2,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_03",
+                    "name": "Coral Sand Sunset (demo)",
+                    "region": "south_goa",
+                    "category": "beach",
+                    "family_friendly": true,
+                    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "late_morning",
+                  "activity": {
+                    "id": "south_goa_06",
+                    "name": "Clay Lantern Workshop (demo)",
+                    "region": "south_goa",
+                    "category": "culture",
+                    "family_friendly": true,
+                    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": "The matching demo catalog is exhausted; remaining time is left free."
+            },
+            {
+              "day": 3,
+              "date": null,
+              "stops": [],
+              "note": "The matching demo catalog is exhausted; remaining time is left free."
+            }
+          ],
+          "disclaimer": "Fictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked."
+        },
+        "active_intent": "itinerary",
+        "secondary_intents": [],
+        "pending_clarification": "Would you like to make any further changes to your itinerary or add other interests?",
+        "model_usage": {
+          "calls": 2,
+          "input_tokens": 12348,
+          "output_tokens": 250,
+          "model": "gpt-4.1",
+          "prompt_version": "mira-receptionist-2.3"
+        },
+        "response_degraded": false,
+        "selected_property_id": null,
+        "selected_room_type_id": null,
+        "latest_recommendations": [],
+        "recommendation_references": [],
+        "latest_quote_id": null,
+        "negotiation_state": {},
+        "pending_confirmation": false,
+        "active_booking_hold_id": null,
+        "escalation_status": "none",
+        "last_tool_results": [
+          {
+            "tool_name": "plan_itinerary",
+            "success": true
+          }
+        ],
+        "next_action": "review_itinerary",
+        "state_version": 2,
+        "quote": null,
+        "hold": null
+      }
+    },
+    {
+      "message": "Change this itinerary to nature activities only, still three days in South Goa.",
+      "seconds": 9.32,
+      "response": "Here is your updated South Goa itinerary focused only on nature activities for three days. Please note that the activity catalog for these options is limited, so some time is left free in the plan. Fictional South Goa itinerary, busy pace.\nDay 1: morning: River Reed Boardwalk (demo) \u2014 Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.; late morning: Kingfisher Grove Visit (demo) \u2014 Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service. The matching demo catalog is exhausted; remaining time is left free.\nDay 2:  The matching demo catalog is exhausted; remaining time is left free.\nDay 3:  The matching demo catalog is exhausted; remaining time is left free.\nFictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked. Would you like to add any other interests or adjust the pace of your itinerary?",
+      "state": {
+        "session_id": "e1fd3698-118b-4005-9d33-9e624064c09a",
+        "messages": [],
+        "booking_requirements": {
+          "destination": null,
+          "check_in": null,
+          "check_out": null,
+          "adults": null,
+          "children": 2,
+          "child_ages": [],
+          "budget_amount": null,
+          "budget_basis": "night",
+          "required_amenities": [],
+          "preferred_amenities": [],
+          "room_preferences": [],
+          "special_requests": [],
+          "add_on_ids": []
+        },
+        "itinerary_preferences": {
+          "days": 3,
+          "interests": [
+            "nature"
+          ],
+          "avoid": [
+            "adventure"
+          ],
+          "pace": "busy",
+          "region": "south_goa",
+          "family_friendly": true
+        },
+        "itinerary": {
+          "fictional": true,
+          "stale": false,
+          "region": "south_goa",
+          "pace": "busy",
+          "preferences": {
+            "days": 3,
+            "interests": [
+              "nature"
+            ],
+            "avoid": [
+              "adventure"
+            ],
+            "pace": "busy",
+            "region": "south_goa",
+            "family_friendly": true
+          },
+          "days": [
+            {
+              "day": 1,
+              "date": null,
+              "stops": [
+                {
+                  "slot": "morning",
+                  "activity": {
+                    "id": "south_goa_10",
+                    "name": "River Reed Boardwalk (demo)",
+                    "region": "south_goa",
+                    "category": "nature",
+                    "family_friendly": true,
+                    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                },
+                {
+                  "slot": "late_morning",
+                  "activity": {
+                    "id": "south_goa_11",
+                    "name": "Kingfisher Grove Visit (demo)",
+                    "region": "south_goa",
+                    "category": "nature",
+                    "family_friendly": true,
+                    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+                    "fictional": true
+                  }
+                }
+              ],
+              "note": "The matching demo catalog is exhausted; remaining time is left free."
+            },
+            {
+              "day": 2,
+              "date": null,
+              "stops": [],
+              "note": "The matching demo catalog is exhausted; remaining time is left free."
+            },
+            {
+              "day": 3,
+              "date": null,
+              "stops": [],
+              "note": "The matching demo catalog is exhausted; remaining time is left free."
+            }
+          ],
+          "disclaimer": "Fictional demo itinerary. Venues and activities are invented; opening hours, travel times, prices, accessibility and availability are not verified. No activities or transport have been booked."
+        },
+        "active_intent": "itinerary",
+        "secondary_intents": [],
+        "pending_clarification": "Would you like to add any other interests or adjust the pace of your itinerary?",
+        "model_usage": {
+          "calls": 3,
+          "input_tokens": 12391,
+          "output_tokens": 278,
+          "model": "gpt-4.1",
+          "prompt_version": "mira-receptionist-2.3"
+        },
+        "response_degraded": false,
+        "selected_property_id": null,
+        "selected_room_type_id": null,
+        "latest_recommendations": [],
+        "recommendation_references": [],
+        "latest_quote_id": null,
+        "negotiation_state": {},
+        "pending_confirmation": false,
+        "active_booking_hold_id": null,
+        "escalation_status": "none",
+        "last_tool_results": [
+          {
+            "tool_name": "plan_itinerary",
+            "success": true
+          }
+        ],
+        "next_action": "review_itinerary",
+        "state_version": 3,
+        "quote": null,
+        "hold": null
+      }
+    }
+  ],
+  "status": "passed"
+}

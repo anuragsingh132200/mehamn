@@ -2,6 +2,8 @@
 from typing import Literal
 from pydantic import BaseModel,ConfigDict,Field,model_validator
 
+from .itinerary_schemas import ItineraryResult
+
 class Result(BaseModel):
     model_config=ConfigDict(extra='forbid')
 class AddOnResult(Result):
@@ -84,7 +86,7 @@ class ReviewResult(Result):
     status:str
     category:str|None=None
 
-RESULT_SCHEMAS={'cancel_booking_hold':HoldResult,'search_properties':SearchResult,'check_availability':AvailabilityResult,'get_room_details':RoomResult,'calculate_price':QuoteResult,'get_policy':PolicyResult,'evaluate_discount':DiscountResult,'create_negotiation_offer':OfferResult,'create_booking_hold':HoldResult,'create_escalation_flag':ReviewResult,'request_human_handoff':ReviewResult,'resolve_escalation_flag':ReviewResult}
+RESULT_SCHEMAS={'plan_itinerary':ItineraryResult,'cancel_booking_hold':HoldResult,'search_properties':SearchResult,'check_availability':AvailabilityResult,'get_room_details':RoomResult,'calculate_price':QuoteResult,'get_policy':PolicyResult,'evaluate_discount':DiscountResult,'create_negotiation_offer':OfferResult,'create_booking_hold':HoldResult,'create_escalation_flag':ReviewResult,'request_human_handoff':ReviewResult,'resolve_escalation_flag':ReviewResult}
 
 def validate_result(name,data):
     RESULT_SCHEMAS[name].model_validate(data)

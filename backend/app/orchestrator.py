@@ -97,6 +97,8 @@ class Receptionist:
         new=merge_requirements(old,i.patches,i.date_operations)
         new=self.dispatch.apply_addons(i,new)
         if new!=old:
+            if self.state.itinerary and any(getattr(new,k)!=getattr(old,k) for k in ('destination','check_in','check_out','adults','children','child_ages')):
+                self.state.itinerary.stale=True
             self.state.booking_requirements=new
             invalidate_quotes(self.db,self.state)
             self.dispatch.quote_changed=True

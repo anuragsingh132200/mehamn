@@ -6,8 +6,10 @@ from . import models as m,schemas as s
 from .agent_schemas import RecommendationReference,NegotiationProposal,StatePatch
 from .tools import BusinessError,money,fingerprint,nights
 from .db import now
+from .itinerary_schemas import BuildInput,ItineraryPreferences,ItineraryResult
 
 TOOL_DESCRIPTIONS={
+    "plan_itinerary":"Create or revise a saved fictional Goa day-by-day plan from duration, region, interests, exclusions, pace and family suitability. It does not reserve activities or change a hotel booking.",
     "search_properties":"Search current hard requirements and return available rooms with full verified quotes.",
     "select_room":"Select a known recommendation and validate its quote/availability, without a hold.",
     "check_availability":"Check each stay night for a known room.",
@@ -194,4 +196,28 @@ class Dispatcher:
         self.state.quote=None;self.state.latest_quote_id=None
         self.state.latest_recommendations=[]
         self.state.next_action='hold_cancelled'
+        return result
+
+    def do_plan_itinerary(self,args):
+        current=self.state.itinerary_preferences.model_dump()
+        current.update(args.model_dump(exclude_none=True))
+        req=self.state.booking_requirements
+        destination=(req.destination or 'Goa').casefold()
+        if not any(area in destination for area in ('goa','candolim','anjuna','palolem')):
+            raise BusinessError('The fictional itinerary catalog covers Goa only. Please choose Goa for this demo.')
+        if current['days'] is None and req.check_in and req.check_out:
+            current['days']=(req.check_out-req.check_in).days
+        if current['days'] is None:raise BusinessError('How many days would you like your Goa itinerary to cover?')
+        if not 1<=current['days']<=7:raise BusinessError('The demo planner supports one to seven days. Please choose a duration within that range.')
+        if req.check_in and req.check_out and current['days']>(req.check_out-req.check_in).days:
+            raise BusinessError('The itinerary is longer than your current stay. Please shorten the plan or explicitly extend the stay.')
+        if current['region'] is None:
+            prop=self.db.get(m.Property,self.state.selected_property_id) if self.state.selected_property_id else None
+            current['region']='south_goa' if prop and 'south goa' in prop.location.casefold() else 'north_goa'
+        if req.children:current['family_friendly']=True
+        preferences=ItineraryPreferences.model_validate(current)
+        result=self.tools.run('plan_itinerary',BuildInput(preferences=preferences,start_date=req.check_in))
+        self.state.itinerary_preferences=preferences
+        self.state.itinerary=ItineraryResult.model_validate(result)
+        self.state.next_action='review_itinerary'
         return result

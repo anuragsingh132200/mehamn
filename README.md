@@ -1,8 +1,22 @@
 # Mira · Mehman hotel receptionist
 
-Verified refactor: **98 PostgreSQL regression tests**, **15/15 live feature scenarios**, **10/10 live interpretation cases**, and **11 browser checks** passed. Production frontend build passed. See [REFACTOR_REPORT.md](REFACTOR_REPORT.md) for measured results and limits.
+Verified refactor: **106 PostgreSQL regression tests** and production frontend build passed after adding the itinerary planner. The earlier hotel refactor passed **15/15 live feature scenarios**, **10/10 live interpretation cases**, and **11 browser checks**. Itinerary checks are recorded separately in `reports/live-itinerary.json` and `reports/browser-itinerary.json`. See [REFACTOR_REPORT.md](REFACTOR_REPORT.md) for measured results and limits.
 
 A runnable Goa hotel receptionist with Next.js, FastAPI, LangGraph, OpenAI tool planning and grounded response generation, and PostgreSQL. All three properties, nine room types, inventory, tax, and negotiation policies are **fictional**. Holds are temporary inventory claims, not confirmed reservations. No payments.
+
+## Fictional itinerary planner
+
+Mira can create and revise saved day-by-day Goa itineraries using 30 fictional activities in `backend/app/data/goa_itinerary.json`. The model interprets requests and calls the typed `plan_itinerary` tool; the server selects activities from the catalog. Plans support one to seven days, North or South Goa, relaxed/balanced/busy pace, family suitability, interests, and exclusions. The frontend displays day cards and a refresh button, and restores the plan when the session reloads.
+
+Try these messages in order:
+
+- “Plan a three-day relaxed South Goa itinerary with beaches and culture. Make it family-friendly and exclude adventure.”
+- “Make that plan busy, keeping the same interests and area.”
+- “Change it to nature activities only.”
+
+A plan can use existing stay dates or remain undated. With no duration or stay dates, Mira asks how many days to plan. Changes to travel dates or guest composition mark the saved plan as needing refresh. Planning does not create or cancel hotel holds. Limited matching activities leave free time explicitly instead of inventing extra venues.
+
+All activity venues are invented demo data. Opening hours, routes, travel times, prices, accessibility, and availability are unverified; the planner does not book activities or transport. Run `backend/.venv/bin/python scripts/live_itinerary.py` against a running API for a paid live-model check; results are saved to `reports/live-itinerary.json`.
 
 ## Start with Docker Compose
 

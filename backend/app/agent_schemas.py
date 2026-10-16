@@ -1,11 +1,12 @@
 """Strict model contracts. No arbitrary tool names, SQL, identities, or pricing policy fields."""
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from .itinerary_schemas import PlanArguments
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-Intent = Literal["search", "select", "policy", "negotiate", "confirm", "cancel", "human", "complaint", "exception", "injection", "modify", "decline", "greeting", "small_talk", "general_question", "unknown"]
+Intent = Literal["search", "select", "policy", "negotiate", "confirm", "cancel", "human", "complaint", "exception", "injection", "modify", "decline", "greeting", "small_talk", "general_question", "itinerary", "unknown"]
 FieldName = Literal["destination", "check_in", "check_out", "adults", "children", "child_ages", "budget_amount", "budget_basis", "required_amenities", "preferred_amenities", "room_preferences", "special_requests"]
 
 class StatePatch(StrictModel):
@@ -130,7 +131,11 @@ class CancelHoldCall(StrictModel):
     tool: Literal["cancel_booking_hold"] = "cancel_booking_hold"
     arguments: EmptyArguments = Field(default_factory=EmptyArguments)
 
-ToolCall = CancelHoldCall | SearchCall | SelectCall | AvailabilityCall | DetailsCall | PriceCall | PolicyCall | DiscountCall | OfferCall | FlagCall | HandoffCall | HoldCall
+class PlanItineraryCall(StrictModel):
+    tool: Literal["plan_itinerary"] = "plan_itinerary"
+    arguments: PlanArguments = Field(default_factory=PlanArguments)
+
+ToolCall = PlanItineraryCall | CancelHoldCall | SearchCall | SelectCall | AvailabilityCall | DetailsCall | PriceCall | PolicyCall | DiscountCall | OfferCall | FlagCall | HandoffCall | HoldCall
 
 class AgentDecision(StrictModel):
     interpretation: Interpretation = Field(default_factory=Interpretation)

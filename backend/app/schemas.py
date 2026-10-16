@@ -21,10 +21,14 @@ class BookingRequirements(BaseModel):
 
 from .agent_schemas import StatePatch as Patch, Interpretation as Extraction
 
+from .itinerary_schemas import ItineraryPreferences,ItineraryResult
+
 class AgentState(BaseModel):
     session_id: str
     messages: list[dict] = Field(default_factory=list)
     booking_requirements: BookingRequirements = Field(default_factory=BookingRequirements)
+    itinerary_preferences: ItineraryPreferences = Field(default_factory=ItineraryPreferences)
+    itinerary: ItineraryResult | None = None
     active_intent: str = "search"
     secondary_intents: list[str] = Field(default_factory=list)
     pending_clarification: str | None = None

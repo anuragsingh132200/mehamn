@@ -62,6 +62,8 @@ class Tools:
             result = json.loads(json.dumps(result, default=str))
             validate_result(name, result)
             summary = {"count": len(result.get("recommendations", []))} if "recommendations" in result else {k: result[k] for k in ("status", "available", "known", "total_minor", "id") if k in result}
+            if name == 'plan_itinerary':
+                summary = {"days": len(result['days']), "region": result['region'], "fictional": result['fictional']}
             ok = True
             self.results.append({"tool_name": name, "data": result})
             return result
@@ -251,3 +253,7 @@ class Tools:
         flag.status, flag.resolved_at = "resolved", now()
         for h in self.db.scalars(select(m.HandoffRequest).where(m.HandoffRequest.flag_id==flag.id)): h.status="resolved"
         return {"id": flag.id, "status": flag.status}
+
+    def plan_itinerary(self,arg):
+        from .itinerary import create_plan
+        return create_plan(arg)

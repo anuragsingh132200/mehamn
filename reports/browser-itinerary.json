@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": [
+    "live itinerary displayed with three days and demo label",
+    "saved itinerary restored after reload",
+    "mobile layout without horizontal overflow",
+    "no browser runtime errors"
+  ],
+  "errors": []
+}

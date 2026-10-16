@@ -32,7 +32,7 @@ def fixture_decision(message):
 def fixture_response(context):
     facts=context['fact_catalog']
     keys=[key for key in facts if key.startswith('policy_')]
-    if not keys:keys=[key for key in ('hold','offer','review','active_quote','search_result','confirmation_required') if key in facts]
+    if not keys:keys=[key for key in ('itinerary','hold','offer','review','active_quote','search_result','confirmation_required') if key in facts]
     if keys:return GroundedResponse(parts=[ResponsePart(kind='fact',fact_key=k) for k in keys],referenced_fact_keys=keys)
     return GroundedResponse(parts=[ResponsePart(kind='text',text='Please share your destination, arrival date, departure date and adult count.')])
 

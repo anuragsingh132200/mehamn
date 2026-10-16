@@ -1,0 +1,272 @@
+[
+  {
+    "id": "north_goa_01",
+    "name": "Aster Beach Walk (demo)",
+    "region": "north_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_02",
+    "name": "Palm Cove Picnic (demo)",
+    "region": "north_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_03",
+    "name": "Shell Bay Sunset (demo)",
+    "region": "north_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_04",
+    "name": "Indigo Courtyard Gallery (demo)",
+    "region": "north_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_05",
+    "name": "Old Lantern Heritage Trail (demo)",
+    "region": "north_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_06",
+    "name": "Seabreeze Craft Studio (demo)",
+    "region": "north_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_07",
+    "name": "Coconut Grove Tasting (demo)",
+    "region": "north_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_08",
+    "name": "Spice Lane Cooking Demo (demo)",
+    "region": "north_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_09",
+    "name": "Harbour Garden Lunch (demo)",
+    "region": "north_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_10",
+    "name": "Mangrove Boardwalk (demo)",
+    "region": "north_goa",
+    "category": "nature",
+    "family_friendly": true,
+    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_11",
+    "name": "Butterfly Grove Visit (demo)",
+    "region": "north_goa",
+    "category": "nature",
+    "family_friendly": true,
+    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_12",
+    "name": "Quiet Palm Garden (demo)",
+    "region": "north_goa",
+    "category": "relaxation",
+    "family_friendly": true,
+    "description": "Fictional relaxation activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_13",
+    "name": "Lagoon Reading Terrace (demo)",
+    "region": "north_goa",
+    "category": "relaxation",
+    "family_friendly": true,
+    "description": "Fictional relaxation activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_14",
+    "name": "Cove Paddle Session (demo)",
+    "region": "north_goa",
+    "category": "adventure",
+    "family_friendly": false,
+    "description": "Fictional adventure activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "north_goa_15",
+    "name": "Ridge Cycle Loop (demo)",
+    "region": "north_goa",
+    "category": "adventure",
+    "family_friendly": false,
+    "description": "Fictional adventure activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_01",
+    "name": "Moonflower Beach Walk (demo)",
+    "region": "south_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_02",
+    "name": "Lotus Cove Picnic (demo)",
+    "region": "south_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_03",
+    "name": "Coral Sand Sunset (demo)",
+    "region": "south_goa",
+    "category": "beach",
+    "family_friendly": true,
+    "description": "Fictional beach activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_04",
+    "name": "Banyan Courtyard Gallery (demo)",
+    "region": "south_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_05",
+    "name": "Marigold Heritage Trail (demo)",
+    "region": "south_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_06",
+    "name": "Clay Lantern Workshop (demo)",
+    "region": "south_goa",
+    "category": "culture",
+    "family_friendly": true,
+    "description": "Fictional culture activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_07",
+    "name": "Cashew Garden Tasting (demo)",
+    "region": "south_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_08",
+    "name": "Coastal Kitchen Demo (demo)",
+    "region": "south_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_09",
+    "name": "Garden Veranda Lunch (demo)",
+    "region": "south_goa",
+    "category": "food",
+    "family_friendly": true,
+    "description": "Fictional food activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_10",
+    "name": "River Reed Boardwalk (demo)",
+    "region": "south_goa",
+    "category": "nature",
+    "family_friendly": true,
+    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_11",
+    "name": "Kingfisher Grove Visit (demo)",
+    "region": "south_goa",
+    "category": "nature",
+    "family_friendly": true,
+    "description": "Fictional nature activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_12",
+    "name": "Stillwater Garden (demo)",
+    "region": "south_goa",
+    "category": "relaxation",
+    "family_friendly": true,
+    "description": "Fictional relaxation activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_13",
+    "name": "Seashell Reading Terrace (demo)",
+    "region": "south_goa",
+    "category": "relaxation",
+    "family_friendly": true,
+    "description": "Fictional relaxation activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_14",
+    "name": "Creek Paddle Session (demo)",
+    "region": "south_goa",
+    "category": "adventure",
+    "family_friendly": false,
+    "description": "Fictional adventure activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  },
+  {
+    "id": "south_goa_15",
+    "name": "Hilltop Cycle Loop (demo)",
+    "region": "south_goa",
+    "category": "adventure",
+    "family_friendly": false,
+    "description": "Fictional adventure activity for a sample Goa itinerary. This is not an operating venue or bookable service.",
+    "fictional": true
+  }
+]

@@ -39,6 +39,17 @@ def fact_catalog(state,results,reviewed=()):
         if status=='cancelled':
             facts['hold']=f"Temporary hold {h['id'][:8]} has been cancelled and its inventory claim released. No payment was taken; no refund was processed."
         else: facts['hold']=f"Temporary hold {h['id'][:8]}: {status}; total {rupees(h['total_minor'])}; expiry {h['expires_at']} UTC. This is not a confirmed reservation. No payment has been taken."
+    if state.itinerary:
+        plan=state.itinerary
+        if plan.stale:
+            facts['itinerary']='Your saved demo itinerary needs updating because your travel requirements changed. Ask me to regenerate it before using it.'
+        else:
+            days=[]
+            for day in plan.days:
+                title=f"Day {day.day}"+(f" ({day.date.isoformat()})" if day.date else '')
+                stops='; '.join(f"{stop.slot.replace('_',' ')}: {stop.activity.name} — {stop.activity.description}" for stop in day.stops)
+                days.append(title+': '+stops+(' '+day.note if day.note else ''))
+            facts['itinerary']=f"Fictional {plan.region.replace('_',' ').title()} itinerary, {plan.pace} pace.\n"+'\n'.join(days)+'\n'+plan.disclaimer
     if state.pending_confirmation:facts['confirmation_required']='Please review the current quote or offer and explicitly confirm if you want a temporary hold.'
     return facts
 
@@ -71,5 +82,5 @@ def generate_response(gateway,message,state,history,results,reviewed=(),validati
 def safe_receipt(state,results,reviewed=()):
     """Guaranteed outage wording, never an offline conversational fallback."""
     facts=fact_catalog(state,results,reviewed)
-    keys=[k for k in ('hold','offer','review','active_quote','search_result','confirmation_required') if k in facts]
+    keys=[k for k in ('hold','offer','review','active_quote','search_result','itinerary','confirmation_required') if k in facts]
     return 'The language service could not complete the explanation. '+(' '.join(facts[k] for k in keys) if keys else 'No new booking has been confirmed. Please retry your message.')
